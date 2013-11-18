@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <div self="@define(pag)" 
+         apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('')">
+        <window title="Cadastro de Curso" 
+                closable="true" 
+                position="center, center" 
+                width="450px" mode="modal">
+            
+            <toolbar>
+                <!--inserir imagem image = "url"-->
+                <toolbarbutton label="Novo" />
+                <toolbarbutton label="Pesquisar" />
+                <toolbarbutton label="Fechar" />
+            </toolbar>
+
+    </div>
+</zk>
