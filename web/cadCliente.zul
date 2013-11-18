@@ -13,9 +13,54 @@
             <toolbar>
                 <!--inserir imagem image = "url"-->
                 <toolbarbutton label="Novo" />
+                <toolbarbutton label="Gravar" />
                 <toolbarbutton label="Pesquisar" />
                 <toolbarbutton label="Fechar" />
             </toolbar>
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Nome
+                        <textbox width="95%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Nacionalidade
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Estado civil
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Idade
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Logradouro
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Numero
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Bairro
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Estado 
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Telefone
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Email
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Login
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                    <row>Senha
+                        <textbox rows="3" width="100%" constraint="no empty" value="" disabled="" />
+                    </row>
+                </rows>
+            </grid>
 
     </div>
 </zk>
