@@ -2,8 +2,8 @@
 
 <!--Chama template-->
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/template.zul"?>
+
 <zk>
-    <style src="/widgets/input/form_sample/style.css" />
     <div self="@define(pag)" 
          apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.FormViewModel')"
@@ -64,9 +64,9 @@
                     <cell colspan="3" style="text-align:center">
                         <vlayout>
                             <label visible="@load(empty vmsgs)"
-                                value="@load(empty vmsgs ? 'Form successfully submitted!' : '', before='submit')" />
+                                   value="@load(empty vmsgs ? 'Form successfully submitted!' : '', before='submit')" />
                             <button label="Cadastrar" onClick="@command('submit')"
-                                width="100px" height="30px" />
+                                    width="100px" height="30px" />
                         </vlayout>
                     </cell>
                 </row>
