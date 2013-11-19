@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -184,6 +185,20 @@ public class ClienteJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public Cliente findUserByLoginAndSenha(String login, String senha) {
+         try {
+            String sql = "select u from Cliente u where u.user=:login and u.senha = :senha";
+            Query q = getEntityManager().createQuery(sql);
+            q.setParameter("login", login);
+            q.setParameter("senha", senha);
+
+            return (Cliente) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+       
     }
     
 }

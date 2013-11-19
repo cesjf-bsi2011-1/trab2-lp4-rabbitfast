@@ -1,21 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<zk xmlns="http://www.zkoss.org/2005/zul">
-
+<!--Chama template-->
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template.zul"?>
+<zk>
+    <style src="/widgets/input/form_sample/style.css" />
     <div self="@define(pag)" 
          apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('')">
-        <window title="Cadastro de Curso" 
-                closable="true" 
-                position="center, center" 
-                width="450px" mode="modal">
-            
-            <toolbar>
-                <!--inserir imagem image = "url"-->
-                <toolbarbutton label="Novo" />
-                <toolbarbutton label="Pesquisar" />
-                <toolbarbutton label="Fechar" />
-            </toolbar>
-
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.FormViewModel')"
+         validationMessages="@id('vmsgs')"
+         form="@id('fx') @load(vm.user) @save(vm.user, before='submit') @validator('br.auadottonizaidem.viewmodel.FormValidator', retypedPassword=vm.retypedPassword)">
+        <grid>
+            <columns>
+                <column label="Campos" width="120px" />
+                <column label="Valores" />
+            </columns>
+            <rows>
+                <row>
+                    <label value="Nome: " width="150px" />
+                    <hlayout>
+                        <textbox value="@bind(fx.nomeUsuario)"
+                                 width="150px" tabindex="1" />
+                    </hlayout>
+                </row>
+                <row>
+                    Senha:
+                    <textbox type="password" value="@bind(fx.senha)"
+                             width="150px" tabindex="2" />
+                </row>
+                <row>
+                    Repete Senha:
+                    <cell>
+                        <textbox type="password" value="@bind(vm.retypedPassword)"
+                                 width="150px"  tabindex="3" />
+                        <label class="error"
+                               value="@load(vmsgs['password'])" />
+                    </cell>
+                </row>
+                <row>
+                    Idade:
+                    <cell>
+                        <intbox value="@bind(fx.idade)" width="150px"  tabindex="4" />
+                        <label class="error"
+                               value="@load(vmsgs['age'])" />
+                    </cell>
+                </row>
+                <row>
+                    Phone:
+                    <textbox constraint="no empty" value="@bind(fx.telefone)"
+                             width="150px" maxlength="15" tabindex="5" />
+                    
+                </row>
+              
+                <row>
+                    E-mail:
+                    <cell>
+                        <textbox value="@bind(fx.email)" width="150px" tabindex="9" />
+                        <label class="error"
+                               value="@load(vmsgs['email'])" />
+                    </cell> 
+                </row>
+                
+                <row>
+                    <cell colspan="3" style="text-align:center">
+                        <vlayout>
+                            <label visible="@load(empty vmsgs)"
+                                value="@load(empty vmsgs ? 'Form successfully submitted!' : '', before='submit')" />
+                            <button label="Cadastrar" onClick="@command('submit')"
+                                width="100px" height="30px" />
+                        </vlayout>
+                    </cell>
+                </row>
+                
+            </rows>
+        </grid>
     </div>
 </zk>
