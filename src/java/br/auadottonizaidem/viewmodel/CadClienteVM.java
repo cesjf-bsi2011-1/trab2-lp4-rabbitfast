@@ -35,6 +35,7 @@ public class CadClienteVM {
     private Window fmrCadCliente;
     private StatusCrud status;
 
+    
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
