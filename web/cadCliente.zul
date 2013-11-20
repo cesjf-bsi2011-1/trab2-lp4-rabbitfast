@@ -12,6 +12,8 @@
         <grid>
             <columns>
                 <column label="Campos" width="120px" />
+                
+                
                 <column label="Valores" />
             </columns>
             <rows>
