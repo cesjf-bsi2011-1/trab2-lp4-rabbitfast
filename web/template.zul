@@ -7,7 +7,7 @@
     apply="org.zkoss.bind.BindComposer"
     viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.TemplateVM')"
     >
-        <north height="85px" style="background-color:red; border:none;">
+        <north height="85px" style="background-color:green; border:none;">
             <h:h1>
                 Serviços de Entrega
             </h:h1>

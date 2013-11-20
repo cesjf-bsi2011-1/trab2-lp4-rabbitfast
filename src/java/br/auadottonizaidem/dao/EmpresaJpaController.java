@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -132,6 +133,20 @@ public class EmpresaJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public Empresa findEmpresaByLoginAndSenha(String login, String senha) {
+         try {
+            String sql = "select e from Empresa e where e.user=:login and e.senha = :senha";
+            Query q = getEntityManager().createQuery(sql);
+            q.setParameter("login", login);
+            q.setParameter("senha", senha);
+
+            return (Empresa) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+       
     }
     
 }
