@@ -102,6 +102,7 @@ public class CadClienteVM {
             fmrCadCliente.setVisible(false);
             status = StatusCrud.view;
             selected = new Cliente();
+            
             listaCliente  = new ClienteJpaController(emf).findClienteEntities();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CadClienteVM.class.getName()).log(Level.SEVERE, null, ex);
