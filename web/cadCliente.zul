@@ -1,79 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--Chama template-->
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/template.zul"?>
 
-<zk>
-    <div self="@define(pag)" 
-         apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.FormViewModel')"
-         validationMessages="@id('vmsgs')"
-         form="@id('fx') @load(vm.user) @save(vm.user, before='submit') @validator('br.auadottonizaidem.viewmodel.FormValidator', retypedPassword=vm.retypedPassword)">
-        <grid>
-            <columns>
-                <column label="Campos" width="120px" />
-                
-                
-                <column label="Valores" />
-            </columns>
-            <rows>
-                <row>
-                    <label value="Nome: " width="150px" />
-                    <hlayout>
-                        <textbox value="@bind(fx.nomeUsuario)"
-                                 width="150px" tabindex="1" />
-                    </hlayout>
-                </row>
-                <row>
-                    Senha:
-                    <textbox type="password" value="@bind(fx.senha)"
-                             width="150px" tabindex="2" />
-                </row>
-                <row>
-                    Repete Senha:
-                    <cell>
-                        <textbox type="password" value="@bind(vm.retypedPassword)"
-                                 width="150px"  tabindex="3" />
-                        <label class="error"
-                               value="@load(vmsgs['password'])" />
-                    </cell>
-                </row>
-                <row>
-                    Idade:
-                    <cell>
-                        <intbox value="@bind(fx.idade)" width="150px"  tabindex="4" />
-                        <label class="error"
-                               value="@load(vmsgs['age'])" />
-                    </cell>
-                </row>
-                <row>
-                    Phone:
-                    <textbox constraint="no empty" value="@bind(fx.telefone)"
-                             width="150px" maxlength="15" tabindex="5" />
-                    
-                </row>
-              
-                <row>
-                    E-mail:
-                    <cell>
-                        <textbox value="@bind(fx.email)" width="150px" tabindex="9" />
-                        <label class="error"
-                               value="@load(vmsgs['email'])" />
-                    </cell> 
-                </row>
-                
-                <row>
-                    <cell colspan="3" style="text-align:center">
-                        <vlayout>
-                            <label visible="@load(empty vmsgs)"
-                                   value="@load(empty vmsgs ? 'Form successfully submitted!' : '', before='submit')" />
-                            <button label="Cadastrar" onClick="@command('submit')"
-                                    width="100px" height="30px" />
-                        </vlayout>
-                    </cell>
-                </row>
-                
-            </rows>
-        </grid>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="xhtml">
+    
+    
+    <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadClienteVM')" >
+        
+        <!-- Cadastro de Cliente -->
+        <window title="Cadastro de Cliente" closable="true" id="fmrCadCliente"
+                position="center, center" width="450px" mode="modal" visible="true" >
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaCliente')" />
+            </toolbar>
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Nome:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.nomeUsuario)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Nacionalidade:
+                        <textbox  width="95%" value="@bind(vm.selected.nacionalidade)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Idade:
+                        <textbox width="100%"  value="@bind(vm.selected.idade)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Logradouro:
+                        <textbox width="100%"  value="@bind(vm.selected.logradouro)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Número:
+                        <textbox width="100%"  value="@bind(vm.selected.numero)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Bairro:
+                        <textbox width="100%"  value="@bind(vm.selected.bairro)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Estado:
+                        <textbox width="100%"  value="@bind(vm.selected.estado)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Telefone:
+                        <textbox width="100%"  value="@bind(vm.selected.telefone)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>E-mail:
+                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.email)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Usuário:
+                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.user)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                    <row>Senha:
+                        <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="@bind(vm.status eq 'view')" />
+                    </row>
+                </rows>
+            </grid>
+            
+        </window>
+        
+        
     </div>
+    
+    
 </zk>
