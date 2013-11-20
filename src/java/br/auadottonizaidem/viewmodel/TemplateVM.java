@@ -100,11 +100,6 @@ public class TemplateVM {
         Executions.sendRedirect("painelEmpresa.zul");
     }
 
-    @Command
-    public void cadEmpresa() {
-        Executions.sendRedirect("cadEmpresa.zul");
-    }
-
     public String getLogin() {
         return login;
     }

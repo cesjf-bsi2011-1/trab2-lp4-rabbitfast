@@ -5,15 +5,12 @@
  */
 package br.auadottonizaidem.viewmodel;
 
-import br.auadottonizaidem.entity.Cliente;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -22,7 +19,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
  *
  * @author Willian
  */
-public class PainelEmpresaVM {
+public class PainelClienteVM {
 
     @WireVariable
     Session sessao;
@@ -31,8 +28,7 @@ public class PainelEmpresaVM {
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");        
-        
-    }
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
+    }
 }

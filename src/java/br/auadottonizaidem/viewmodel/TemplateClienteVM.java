@@ -39,7 +39,6 @@ public class TemplateClienteVM {
     @WireVariable
     Session sessao;
     private Cliente user;
-    private Empresa empresa;
 
     public Cliente getUser() {
         return user;
@@ -65,60 +64,23 @@ public class TemplateClienteVM {
     }
 
     @Command
-    public void Valida() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-
-        user = new ClienteJpaController(emf).findUserByLoginAndSenha(login, senha);
-        empresa = new EmpresaJpaController(emf).findEmpresaByLoginAndSenha(login, senha);
-
-        if (user == null && empresa == null) {
-            Messagebox.show("Login ou senha incorreta");
-        }else if (empresa != null) {
-            winLogin.setVisible(false);
-            sessao.setAttribute("empresa", empresa);
-            painelEmpresa();
-        } else {
-            winLogin.setVisible(false);
-            sessao.setAttribute("user", user);
-            painelCliente();
-        }
-
+    public void cadEntrega() {
+        Executions.sendRedirect("cadEntrega.zul");
     }
 
     @Command
-    public void cadCliente() {
-        Executions.sendRedirect("cadCliente.zul");
+    public void visualizaStatus() {
+        Executions.sendRedirect("visualizaStatus.zul");
     }
-    
+
     @Command
     public void painelCliente() {
         Executions.sendRedirect("painelCliente.zul");
     }
     
     @Command
-    public void painelEmpresa() {
-        Executions.sendRedirect("painelEmpresa.zul");
-    }
-
-    @Command
-    public void cadEmpresa() {
-        Executions.sendRedirect("cadEmpresa.zul");
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void editarCliente() {
+        Executions.sendRedirect("editarCliente.zul");
     }
 
 }
