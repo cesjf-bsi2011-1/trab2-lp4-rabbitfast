@@ -28,7 +28,7 @@ import org.zkoss.zul.Window;
  *
  * @author Aparecida
  */
-public class TemplateVM {
+public class TemplateClienteVM {
 
     //   para pegar uma div interna, filha, está pegando
     @Wire

@@ -28,7 +28,7 @@ import org.zkoss.zul.Window;
  *
  * @author Aparecida
  */
-public class TemplateVM {
+public class TemplateEmpresaVM {
 
     //   para pegar uma div interna, filha, está pegando
     @Wire
@@ -65,44 +65,32 @@ public class TemplateVM {
     }
 
     @Command
-    public void Valida() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-
-        user = new ClienteJpaController(emf).findUserByLoginAndSenha(login, senha);
-        empresa = new EmpresaJpaController(emf).findEmpresaByLoginAndSenha(login, senha);
-
-        if (user == null && empresa == null) {
-            Messagebox.show("Login ou senha incorreta");
-        }else if (empresa != null) {
-            winLogin.setVisible(false);
-            sessao.setAttribute("empresa", empresa);
-            painelEmpresa();
-        } else {
-            winLogin.setVisible(false);
-            sessao.setAttribute("user", user);
-            painelCliente();
-        }
-
+    public void cadRota() {
+        Executions.sendRedirect("cadRota.zul");
     }
-
     @Command
-    public void cadCliente() {
-        Executions.sendRedirect("cadCliente.zul");
+    public void cadLocalidade() {
+        Executions.sendRedirect("cadLocalidade.zul");
     }
-    
     @Command
-    public void painelCliente() {
-        Executions.sendRedirect("painelCliente.zul");
+    public void cadPontoReferencia() {
+        Executions.sendRedirect("cadPontoReferencia.zul");
     }
-    
+    @Command
+    public void cadRotaPercurso() {
+        Executions.sendRedirect("cadRotaPercurso.zul");
+    }
+    @Command
+    public void cadStatus() {
+        Executions.sendRedirect("cadStatus.zul");
+    }
+    @Command
+    public void cadVeiculo() {
+        Executions.sendRedirect("cadVeiculo.zul");
+    }
     @Command
     public void painelEmpresa() {
         Executions.sendRedirect("painelEmpresa.zul");
-    }
-
-    @Command
-    public void cadEmpresa() {
-        Executions.sendRedirect("cadEmpresa.zul");
     }
 
     public String getLogin() {

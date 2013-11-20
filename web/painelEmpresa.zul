@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template.zul"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/templateEmpresa.zul"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:h="xhtml">
@@ -8,10 +8,7 @@
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.PainelEmpresaVM')" >
         
-        <!-- Cadastro de Cliente -->
-        <label>TESTE EMPRESA</label>
-        
-        
+        <label>PAINEL DE EMPRESA</label>
     </div>
     
     
