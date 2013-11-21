@@ -8,6 +8,39 @@
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadRotaVM')" >
         <label>CADASTRO DE ROTA</label>
-    
+        <window title="Cadastro de Rotas" closable="true" id="fmrCadRotas"
+                position="center, center" width="450px" mode="modal" >
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaCurso')" 
+                                visible="@bind(vm.status eq 'insert' || vm.status eq 'edit')" />
+            </toolbar>
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Origem da Entrega:
+                        <combobox width="95%" readonly="true" constraint="no empty" 
+                                  selectedItem="@bind(vm.loc.idLocalizacao)"
+                                  model="@bind(vm.listaLocalidades)"  >
+                            <template name="model">
+                                <comboitem label="@bind(each.regiao)"  />
+                            </template>
+                        </combobox>
+                    </row>
+                        <row>Destino da Entrega:
+                        <combobox width="95%" readonly="true" constraint="no empty" 
+                                  selectedItem="@bind(vm.loc.idLocalizacao)"
+                                  model="@bind(vm.listaLocalidades)"  >
+                            <template name="model">
+                                <comboitem label="@bind(each.regiao)"  />
+                            </template>
+                        </combobox>
+                    </row>
+                </rows>
+            </grid>    
+        </window>
+        
     </div>
 </zk>
