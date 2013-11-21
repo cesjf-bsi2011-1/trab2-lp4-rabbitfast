@@ -15,7 +15,7 @@ import org.zkoss.bind.annotation.AfterCompose;
  *
  * @author Aparecida
  */
-public class cadClienteVM {
+public class CadClienteVM {
      private List<Cliente> listaCliente;
 
     public List<Cliente> getListaCliente() {
@@ -29,7 +29,7 @@ public class cadClienteVM {
      @AfterCompose
     public void init(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        
+        listaCliente = new ClienteJpaController(emf).findClienteEntities();
     }
     
 }
