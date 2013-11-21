@@ -37,7 +37,9 @@ public class CadRotaVM {
     private List<Rota> listaRotas;
     private List<Localidade> listaLocalidades;
     private Rota selected;
-    private Localidade loc;
+    private Localidade origem;
+    private Localidade destino;
+
     @Wire
     private Window fmrCadRotas;
     private StatusCrud status;
@@ -50,11 +52,12 @@ public class CadRotaVM {
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
         selected = new Rota();
-        loc = new Localidade();
-        status = StatusCrud.view;
+        origem = new Localidade();
+        destino = new Localidade();
+        status = StatusCrud.insert;
     }
 
-    @NotifyChange({"selected","loc", "status"})
+    @NotifyChange({"selected","origem","destino", "status"})
     @Command
     public void open() {
         status = StatusCrud.view;
@@ -62,30 +65,32 @@ public class CadRotaVM {
 
     }
 
-    @NotifyChange({"selected", "loc","status"})
+    @NotifyChange({"selected", "origem","destino","status"})
     @Command
     public void novo() {
         selected = new Rota();
-        loc = new Localidade();
+        origem = new Localidade();
         status = StatusCrud.insert;
         fmrCadRotas.doModal();
 
     }
 
-    @NotifyChange({"listaRotas","listaLocalidades","loc", "selected", "status"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaRotas","listaLocalidades","origem", "destino","selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void alteraRotas() {
         status = StatusCrud.edit;
 
     }
 
-    @NotifyChange({"listaRotas","listaLocalidades", "loc","selected", "status"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaRotas","listaLocalidades", "origem","destino","selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void gravaRotas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
         if (status == StatusCrud.insert) {
             try {
+                selected.setLocOrigem(origem);
+                selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
             } catch (Exception ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,12 +107,12 @@ public class CadRotaVM {
         fmrCadRotas.setVisible(false);
         status = StatusCrud.view;
         selected = new Rota();
-        loc = new Localidade();
+        origem = new Localidade();
         listaRotas = new RotaJpaController(emf).findRotaEntities();
 
     }
 
-    @NotifyChange({"listaRotas", "listaLocalidades", "loc","selected", "status"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaRotas", "listaLocalidades", "origem","destino","selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void apagaRotas() {
         try {
@@ -120,7 +125,7 @@ public class CadRotaVM {
             fmrCadRotas.setVisible(false);
             status = StatusCrud.view;
             selected = new Rota();
-            loc = new Localidade();
+            origem = new Localidade();
             listaRotas = new RotaJpaController(emf).findRotaEntities();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,13 +165,31 @@ public class CadRotaVM {
         this.listaLocalidades = listaLocalidades;
     }
     
-    public Localidade getLoc() {
-        return loc;
+    public Localidade getOrigem() {
+        return origem;
     }
 
-    public void setLoc(Localidade loc) {
-        this.loc = loc;
+    public void setDestino(Localidade origem) {
+        this.origem = origem;
     }
+    
+    
+    public Window getFmrCadRotas() {
+        return fmrCadRotas;
+    }
+
+    public void setFmrCadRotas(Window fmrCadRotas) {
+        this.fmrCadRotas = fmrCadRotas;
+    }
+        
+    public void setOrigem(Localidade origem) {
+        this.origem = origem;
+    }
+
+    public Localidade getDestino() {
+        return destino;
+    }
+
     
 
 }

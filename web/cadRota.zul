@@ -10,10 +10,7 @@
         <label>CADASTRO DE ROTA</label>
         <window title="Cadastro de Rotas" closable="true" id="fmrCadRotas"
                 position="center, center" width="450px" mode="modal" >
-            <toolbar>
-                <toolbarbutton  label="Gravar" onClick="@command('gravaCurso')" 
-                                visible="@bind(vm.status eq 'insert' || vm.status eq 'edit')" />
-            </toolbar>
+            
             <grid>
                 <columns height="0px">
                     <column></column>
@@ -22,7 +19,7 @@
                 <rows>
                     <row>Origem da Entrega:
                         <combobox width="95%" readonly="true" constraint="no empty" 
-                                  selectedItem="@bind(vm.loc.idLocalizacao)"
+                                  selectedItem="@bind(vm.origem)"
                                   model="@bind(vm.listaLocalidades)"  >
                             <template name="model">
                                 <comboitem label="@bind(each.regiao)"  />
@@ -31,7 +28,7 @@
                     </row>
                         <row>Destino da Entrega:
                         <combobox width="95%" readonly="true" constraint="no empty" 
-                                  selectedItem="@bind(vm.loc.idLocalizacao)"
+                                  selectedItem="@bind(vm.destino)"
                                   model="@bind(vm.listaLocalidades)"  >
                             <template name="model">
                                 <comboitem label="@bind(each.regiao)"  />
@@ -40,6 +37,9 @@
                     </row>
                 </rows>
             </grid>    
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaRotas')" />
+            </toolbar>
         </window>
         
     </div>
