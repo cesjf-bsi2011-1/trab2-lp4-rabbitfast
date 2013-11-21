@@ -29,13 +29,13 @@ import org.zkoss.zul.Window;
  * @author Aparecida
  */
 public class CadClienteVM {
-     private List<Cliente> listaCliente;
-   private Cliente selected;
+
+    private List<Cliente> listaCliente;
+    private Cliente selected;
     @Wire
     private Window fmrCadCliente;
     private StatusCrud status;
 
-    
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
@@ -101,8 +101,8 @@ public class CadClienteVM {
             new ClienteJpaController(emf).destroy(selected.getIdCliente());
             fmrCadCliente.setVisible(false);
             status = StatusCrud.view;
-            selected = new Cliente();            
-            listaCliente  = new ClienteJpaController(emf).findClienteEntities();
+            selected = new Cliente();
+            listaCliente = new ClienteJpaController(emf).findClienteEntities();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CadClienteVM.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -124,16 +124,13 @@ public class CadClienteVM {
     public void setStatus(StatusCrud status) {
         this.status = status;
     }
-    
-    
-     public List<Cliente> getListaCliente() {
+
+    public List<Cliente> getListaCliente() {
         return listaCliente;
     }
 
     public void setListaCliente(List<Cliente> listaCliente) {
         this.listaCliente = listaCliente;
     }
-    
-    
-    
+
 }
