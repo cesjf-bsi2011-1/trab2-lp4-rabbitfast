@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Felipe%20Zaidem/Documents/GitHub/trab2-lp4-rabbitfast/web/cadCliente.zul</file>
+            <file>file:/C:/Users/Felipe%20Zaidem/Documents/GitHub/trab2-lp4-rabbitfast/src/java/br/auadottonizaidem/docs/db_entregas.sql</file>
+            <file>file:/C:/Users/Felipe%20Zaidem/Documents/GitHub/trab2-lp4-rabbitfast/src/java/br/auadottonizaidem/viewmodel/CadClienteVM.java</file>
+            <file>file:/C:/Users/Felipe%20Zaidem/Documents/GitHub/trab2-lp4-rabbitfast/src/java/br/auadottonizaidem/viewmodel/TemplateVM.java</file>
+        </group>
+    </open-files>
+</project-private>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+</project-private>
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
