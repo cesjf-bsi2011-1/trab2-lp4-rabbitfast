@@ -191,5 +191,34 @@ public class VeiculoJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<Veiculo> findVeiculoByCriterio(Veiculo sp) {
+
+        String sql = "select c from tb_veiculo c where 1=1 ";
+               if(sp.getPlacaVeiculo()!= null){
+               sql+= "and c.placa_veiculo like :pl_vei ";
+               } 
+                if(sp.getNomeMotorista()!= null){
+               sql+= "and c.nome_motorista like :nom_mot ";
+               } 
+                if(sp.getTipoVeiculo() != null){
+               sql+= "and c.tipo_veiculo= :tv ";
+               } 
+                 
+                
+        Query q = getEntityManager().createQuery(sql);
+        if(sp.getPlacaVeiculo()!= null){
+        q.setParameter("pl_vei", sp.getPlacaVeiculo()+ "%");
+        }
+        if(sp.getNomeMotorista()!= null){
+        q.setParameter("nom_mot", sp.getNomeMotorista()+ "%");
+        }
+        if(sp.getPlacaVeiculo()!= null){
+        q.setParameter("pl_vei", sp.getPlacaVeiculo()+ "%");
+        }
+        
+        return q.getResultList();
+
+    }
     
 }

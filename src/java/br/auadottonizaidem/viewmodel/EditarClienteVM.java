@@ -28,13 +28,13 @@ import org.zkoss.zul.Window;
  *
  * @author Aparecida
  */
-public class CadClienteVM {
+public class EditarClienteVM {
 
     private List<Cliente> listaCliente;
     private Cliente selected;
     @Wire
     private Window fmrCadCliente;
-    private StatusCrud estCivil;
+    private StatusCrud status;
 
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
@@ -43,68 +43,68 @@ public class CadClienteVM {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaCliente = new ClienteJpaController(emf).findClienteEntities();
         selected = new Cliente();
-        estCivil = StatusCrud.insert;
+        status = StatusCrud.insert;
     }
 
-    @NotifyChange({"selected", "estCivil"})
+    @NotifyChange({"selected", "status"})
     @Command
     public void open() {
-        estCivil = StatusCrud.view;
+        status = StatusCrud.view;
         fmrCadCliente.doModal();
 
     }
 
-    @NotifyChange({"selected", "estCivil"})
+    @NotifyChange({"selected", "status"})
     @Command
     public void novo() {
         selected = new Cliente();
-        estCivil = StatusCrud.insert;
+        status = StatusCrud.insert;
         fmrCadCliente.doModal();
 
     }
 
-    @NotifyChange({"listaCliente", "selected", "estCivil"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void alteraCliente() {
-        estCivil = StatusCrud.edit;
+        status = StatusCrud.edit;
 
     }
 
-    @NotifyChange({"listaCliente", "selected", "estCivil"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void gravaCliente() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
-        if (estCivil == StatusCrud.insert) {
+        if (status == StatusCrud.insert) {
             new ClienteJpaController(emf).create(selected);
-        } else if (estCivil == StatusCrud.edit) {
+        } else if (status == StatusCrud.edit) {
             try {
                 new ClienteJpaController(emf).edit(selected);
             } catch (NonexistentEntityException ex) {
-                Logger.getLogger(CadClienteVM.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                Logger.getLogger(CadClienteVM.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         fmrCadCliente.setVisible(false);
-        estCivil = StatusCrud.view;
+        status = StatusCrud.view;
         selected = new Cliente();
         listaCliente = new ClienteJpaController(emf).findClienteEntities();
 
     }
 
-    @NotifyChange({"listaCliente", "selected", "estCivil"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void apagaCliente() {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
             new ClienteJpaController(emf).destroy(selected.getIdCliente());
             fmrCadCliente.setVisible(false);
-            estCivil = StatusCrud.view;
+            status = StatusCrud.view;
             selected = new Cliente();
             listaCliente = new ClienteJpaController(emf).findClienteEntities();
         } catch (NonexistentEntityException ex) {
-            Logger.getLogger(CadClienteVM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -118,11 +118,11 @@ public class CadClienteVM {
     }
 
     public StatusCrud getStatus() {
-        return estCivil;
+        return status;
     }
 
     public void setStatus(StatusCrud status) {
-        this.estCivil = status;
+        this.status = status;
     }
 
     public List<Cliente> getListaCliente() {

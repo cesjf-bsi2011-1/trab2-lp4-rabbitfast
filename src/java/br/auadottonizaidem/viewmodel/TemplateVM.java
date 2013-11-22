@@ -5,7 +5,9 @@
 package br.auadottonizaidem.viewmodel;
 
 import br.auadottonizaidem.dao.ClienteJpaController;
+import br.auadottonizaidem.dao.EmpresaJpaController;
 import br.auadottonizaidem.entity.Cliente;
+import br.auadottonizaidem.entity.Empresa;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -27,15 +29,17 @@ import org.zkoss.zul.Window;
  * @author Aparecida
  */
 public class TemplateVM {
+
     //   para pegar uma div interna, filha, está pegando
-    @Wire   
+    @Wire
     private Center center;
     private Window winLogin;
     private String login, senha;
-    
+
     @WireVariable
     Session sessao;
     private Cliente user;
+    private Empresa empresa;
 
     public Cliente getUser() {
         return user;
@@ -44,48 +48,61 @@ public class TemplateVM {
     public void setUser(Cliente user) {
         this.user = user;
     }
-    
+
     // assim que a pagina carregar ela executa esse metodo
     @AfterCompose
-    public void init(@ContextParam(ContextType.VIEW)Component view){
+    public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
     }
-    
+
     @Command
-    public void Logar(){
+    public void Logar() {
         //pegando o window la na template
-        winLogin =(Window) center.getFirstChild().getChildren().get(1);
+        winLogin = (Window) center.getFirstChild().getChildren().get(1);
         winLogin.setVisible(true);
         //       Messagebox.show("olá"+ center.getId());
-        
+
     }
-    
+
     @Command
-    public void Valida(){
+    public void Valida() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        
-        user = new ClienteJpaController(emf).findUserByLoginAndSenha(login,senha);
-        
-        if(user== null){
+
+        user = new ClienteJpaController(emf).findUserByLoginAndSenha(login, senha);
+        empresa = new EmpresaJpaController(emf).findEmpresaByLoginAndSenha(login, senha);
+
+        if (user == null && empresa == null) {
             Messagebox.show("Login ou senha incorreta");
-        }else{
+        }else if (empresa != null) {
+            winLogin.setVisible(false);
+            sessao.setAttribute("empresa", empresa);
+            painelEmpresa();
+        } else {
             winLogin.setVisible(false);
             sessao.setAttribute("user", user);
+            painelCliente();
         }
-        
+
     }
-    
+
     @Command
-    public void cadCliente(){
+    public void cadCliente() {
         Executions.sendRedirect("cadCliente.zul");
     }
-    
-    @Command
-    public void cadEmpresa(){
-        Executions.sendRedirect("cadEmpresa.zul");
+     @Command
+    public void cadVeiculo() {
+        Executions.sendRedirect("cadVeiculo.zul");
     }
     
+    @Command
+    public void painelCliente() {
+        Executions.sendRedirect("painelCliente.zul");
+    }
     
+    @Command
+    public void painelEmpresa() {
+        Executions.sendRedirect("painelEmpresa.zul");
+    }
 
     public String getLogin() {
         return login;
@@ -102,5 +119,5 @@ public class TemplateVM {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
 }

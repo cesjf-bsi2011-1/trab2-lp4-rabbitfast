@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/templateEmpresa.zul"?>
 
-<zk xmlns="http://www.zkoss.org/2005/zul">
-
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="xhtml">
+    
+    
+    <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadLocalidadeVM')" >
+        <label>CADASTRO DE Localidade</label>
+        
+         <!-- Cadastro de Localidade -->
+        <window title="Cadastro de Localidade" closable="true" id="fmrCadLocalidade"
+                position="center, center" width="450px" mode="modal" visible="true" >
+            
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Região:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.regiao)"  />
+                    </row>
+                </rows>
+            </grid>
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaLocalizacao')" />
+            </toolbar>
+            
+        </window>
+        
+        
+    </div>
 </zk>

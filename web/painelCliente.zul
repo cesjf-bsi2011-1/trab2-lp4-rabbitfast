@@ -6,8 +6,10 @@
     
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadEntregaVM')" >
-        <label>CADASTRO DE ENTREGAS</label>
-    
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.PainelClienteVM')" >
+        
+        <label>PAINEL DE CLIENTE</label>
     </div>
+    
+    
 </zk>
