@@ -7,6 +7,7 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadVeiculoVM')" >
+<<<<<<< HEAD
         
         
         <window title="Cadastro de Veiculo" closable="true"
@@ -106,6 +107,9 @@
         </window>
         
         
+=======
+        <label>CADASTRO DE VEICULO</label>
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
     
     </div>
 </zk>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul"
@@ -70,3 +71,76 @@
     </borderlayout>
 
 </zk>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="xhtml">
+    
+    <borderlayout width="100%" height="100%" 
+    apply="org.zkoss.bind.BindComposer"
+    viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.TemplateVM')"
+    >
+        <north height="85px" style="background-color:green; border:none;">
+            <h:h1>
+                Serviços de Entrega
+            </h:h1>
+        </north>
+        
+        <west collapsible="true" splittable="true" width="200px;" border="none">
+            <menubar orient="vertical">
+                
+                <menuitem label="Home" href="index.zul" />
+                <menuitem label="Cadastre-se Agora" href="cadCliente.zul" 
+                          visible ="@bind(vm.user eq null)"/>
+                           
+                
+                <menuseparator />
+                <menuitem label="Logar" onClick="@command('Logar')" 
+                          visible ="@bind(vm.user eq null)" />
+                <menuitem label="Logout" onClick="@command('Logout')" 
+                          visible ="@bind(vm.user ne null)" />
+            </menubar>
+        </west>
+        
+        <center id="center" border="0">
+            <div>
+                <div self="@{insert(pag)}">
+                
+                
+                </div>
+                <window id="winLogin" title="Logar" width="350px" mode="modal" position="center,center" closable="true" visible="false" onClose="self.visible = false;event.stopPropagation();"> 
+                    <grid>
+                        <columns height="0px">
+                            <column width="80px" />
+                            <column />
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="Login" />
+                                <textbox value="@bind(vm.login)" /> 
+                            </row>
+                            <row>
+                                <label value="Senha" />
+                                <textbox type="password" value="@bind(vm.senha)" /> 
+                            </row>
+                            <row>
+                                <cell colspan="2" style="text-align:center;">
+                                    <button label="OK" onClick="@command('Valida')" />
+                                </cell>
+                            </row>
+                        </rows>
+                    </grid>
+             
+                </window>
+            </div>
+        </center>
+        
+        <south height="85px" style="background-color:black; border:none; color:#fff; text-align:center;">
+            Sistema de Entregas de Produtos
+        </south>
+        
+    </borderlayout>
+
+</zk>
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4

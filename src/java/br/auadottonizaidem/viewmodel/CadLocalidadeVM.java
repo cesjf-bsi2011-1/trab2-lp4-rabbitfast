@@ -23,6 +23,10 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+<<<<<<< HEAD
+=======
+import org.zkoss.zul.Messagebox;
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
 import org.zkoss.zul.Window;
 
 /**
@@ -81,6 +85,10 @@ public class CadLocalidadeVM {
         } else if (status == StatusCrud.edit) {
             try {
                 new LocalidadeJpaController(emf).edit(selected);
+<<<<<<< HEAD
+=======
+                
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(CadLocalidadeVM.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -88,6 +96,10 @@ public class CadLocalidadeVM {
             }
         }
         fmrCadLocalidade.setVisible(false);
+<<<<<<< HEAD
+=======
+        Messagebox.show("Localidade cadastrada com sucesso!");
+>>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
         status = StatusCrud.view;
         selected = new Localidade();
         listaLocalidade = new LocalidadeJpaController(emf).findLocalidadeEntities();
