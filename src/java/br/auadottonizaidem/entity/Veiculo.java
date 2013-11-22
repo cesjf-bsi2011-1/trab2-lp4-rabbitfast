@@ -38,7 +38,7 @@ public class Veiculo implements Serializable {
     @Column(name = "nome_motorista")
     private String nomeMotorista;
     @Column(name = "tipo_veiculo")
-    private Integer tipoVeiculo;
+    private String tipoVeiculo;
     @OneToMany(mappedBy = "placaVeiculo")
     private List<Entrega> entregaList;
 
@@ -65,11 +65,11 @@ public class Veiculo implements Serializable {
         this.nomeMotorista = nomeMotorista;
     }
 
-    public Integer getTipoVeiculo() {
+    public String getTipoVeiculo() {
         return tipoVeiculo;
     }
 
-    public void setTipoVeiculo(Integer tipoVeiculo) {
+    public void setTipoVeiculo(String tipoVeiculo) {
         this.tipoVeiculo = tipoVeiculo;
     }
 

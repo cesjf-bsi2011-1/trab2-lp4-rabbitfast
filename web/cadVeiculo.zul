@@ -7,6 +7,103 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadVeiculoVM')" >
+        
+        
+        <window title="Cadastro de Veiculo" closable="true"
+                position="center, center" width="450px" mode="modal">
+            <toolbar>
+                <toolbarbutton  label="Novo" />
+                <toolbarbutton  label="Pesquisar" onClick="@command('pesquisa')"/>
+                <toolbarbutton  label="Fechar"/>
+            </toolbar>
+            <listbox rows="13" emptyMessage="Nenhum Veiculo Cadastrado!!!"
+                     model="@bind(vm.listaVeiculo)" 
+                     selectedItem="@bind(vm.selected)"
+                     onSelect="@command('open')"
+
+            >
+                <listhead>
+                    <listheader value="Placa Veiculo" width="50px" />
+                    <listheader value="Nome Motorista" />
+                    <listheader value="Tipo Veiculo" width="80px" />
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell label="@bind(each.placaVeiculo)" />
+                        <listcell label="@bind(each.nomeMotorista)" />
+                        <listcell label="@bind(each.tipoVeiculo)" />
+                    </listitem>
+                </template>
+                
+            </listbox>
+        </window>
+        
+        <!-- Cadastro de Veiculo -->
+        <window title="CADASTRO DE VEICULO" closable="true" id="fmrCadVeiculo"
+                position="center, center" width="450px" mode="modal" visible="false" onClose="self.visible = false;event.stopPropagation();" >
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaVeiculo')" />
+                <toolbarbutton  label="Alterar"  onClick="@command('alteraVeiculo')" visible="@bind(vm.tipoVeiculo eq 'view')" />
+                <toolbarbutton  label="Apagar" onClick="@command('apagaVeiculo')" visible="@bind(vm.tipoVeiculo eq 'view')" />
+            </toolbar>
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Placa Veiculo
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.placaVeiculo)" disabled="@bind(vm.tipoVeiculo eq 'view')"  />
+                    </row>
+                    <row>Nome Motorista:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.nomeMotorista)" disabled="@bind(vm.tipoVeiculo eq 'view')"  />
+                    </row>
+                    <row>Tipo Do Veiculo:
+                        <combobox width="95%"
+                                  mold="rounded" readonly="true" constraint="no empty" selectedItem="@bind(vm.selected.tipoVeiculo)" disabled="@bind(vm.tipoVeiculo eq 'view')"  >
+                            <comboitem value="Moto" label="Moto"  />
+                            <comboitem value="Carro" label="Carro"  />
+                            <comboitem value="Caminhão" label="Caminhão"  />
+                        </combobox>
+                    </row>
+                    
+                </rows>
+            </grid>
+            
+        </window>
+        
+        <!-- Pesquisa de Veiculo -->
+        <window title="Pesquisa de Veiculo" closable="true" id="fmrPesquisaVeiculo"
+                position="center, center" width="450px" mode="modal" visible="false" onClose="self.visible = false;event.stopPropagation();" >
+           <toolbar>
+                <toolbarbutton  label="Pesquisar" onClick="@command('pesquisaVeiculo')"  />
+                <toolbarbutton  label="Fechar"/>
+            </toolbar>
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Placa Veiculo
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selectedPesq.placaVeiculo)" disabled="@bind(vm.tipoVeiculo eq 'view')"  />
+                    </row>
+                    <row>Nome Motorista:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selectedPesq.nomeMotorista)" disabled="@bind(vm.tipoVeiculo eq 'view')"  />
+                    </row>
+                    <row>Tipo Do Veiculo:
+                        <combobox width="95%"
+                                  mold="rounded" readonly="true" constraint="no empty" selectedItem="@bind(vm.selectedPesq.tipoVeiculo)" disabled="@bind(vm.tipoVeiculo eq 'view')"  >
+                            <comboitem value="Moto" label="Moto"  />
+                            <comboitem value="Carro" label="Carro"  />
+                            <comboitem value="Caminhão" label="Caminhão"  />
+                        </combobox>
+                    </row>
+                    
+                </rows>
+            </grid>
+            
+        </window>
         <label>CADASTRO DE VEICULO</label>
     
     </div>
