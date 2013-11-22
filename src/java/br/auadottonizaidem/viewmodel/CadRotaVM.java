@@ -26,6 +26,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 /**
@@ -36,6 +37,7 @@ public class CadRotaVM {
 
     private List<Rota> listaRotas;
     private List<Localidade> listaLocalidades;
+    private List<Localidade> listaLocalidades1;
     private Rota selected;
     private Localidade origem;
     private Localidade destino;
@@ -51,6 +53,7 @@ public class CadRotaVM {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
+        
         selected = new Rota();
         origem = new Localidade();
         destino = new Localidade();
@@ -70,19 +73,20 @@ public class CadRotaVM {
     public void novo() {
         selected = new Rota();
         origem = new Localidade();
+        destino = new Localidade();
         status = StatusCrud.insert;
         fmrCadRotas.doModal();
 
     }
 
-    @NotifyChange({"listaRotas","listaLocalidades","origem", "destino","selected", "status"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({ "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void alteraRotas() {
         status = StatusCrud.edit;
 
     }
 
-    @NotifyChange({"listaRotas","listaLocalidades", "origem","destino","selected", "status"})//para atualizar assim que gravar no banco de dados.
+    @NotifyChange({"selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void gravaRotas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
@@ -92,6 +96,7 @@ public class CadRotaVM {
                 selected.setLocOrigem(origem);
                 selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
+                Messagebox.show("Cadastro realizado com sucesso!");
             } catch (Exception ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -105,9 +110,7 @@ public class CadRotaVM {
             }
         }
         fmrCadRotas.setVisible(false);
-        status = StatusCrud.view;
         selected = new Rota();
-        origem = new Localidade();
         listaRotas = new RotaJpaController(emf).findRotaEntities();
 
     }
@@ -164,14 +167,7 @@ public class CadRotaVM {
     public void setListaLocalidades(List<Localidade> listaLocalidades) {
         this.listaLocalidades = listaLocalidades;
     }
-    
-    public Localidade getOrigem() {
-        return origem;
-    }
 
-    public void setDestino(Localidade origem) {
-        this.origem = origem;
-    }
     
     
     public Window getFmrCadRotas() {
@@ -181,13 +177,29 @@ public class CadRotaVM {
     public void setFmrCadRotas(Window fmrCadRotas) {
         this.fmrCadRotas = fmrCadRotas;
     }
-        
+
+    public List<Localidade> getListaLocalidades1() {
+        return listaLocalidades1;
+    }
+
+    public void setListaLocalidades1(List<Localidade> listaLocalidades1) {
+        this.listaLocalidades1 = listaLocalidades1;
+    }
+
+    public Localidade getOrigem() {
+        return origem;
+    }
+
     public void setOrigem(Localidade origem) {
         this.origem = origem;
     }
 
     public Localidade getDestino() {
         return destino;
+    }
+
+    public void setDestino(Localidade destino) {
+        this.destino = destino;
     }
 
     
