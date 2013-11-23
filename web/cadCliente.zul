@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template.zul"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="xhtml">
+    
+    
+    <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadClienteVM')" >
+        
+        <!-- Cadastro de Cliente -->
+        <window title="Cadastro de Cliente" closable="true" id="fmrCadCliente"
+                position="center, center" width="450px" mode="modal" visible="true" >
+            
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Nome:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.nomeUsuario)"  />
+                    </row>
+                    <row>Nacionalidade:
+                        <textbox  width="95%" value="@bind(vm.selected.nacionalidade)" />
+                    </row>
+                    <row>Estado Civil:
+                        <combobox width="95%"
+                                  mold="rounded" 
+                                  readonly="true"
+                                  selectedItem="@bind(vm.selected.estCivil)" 
+                        >
+                            <comboitem value="S" label="Solteiro(a)"  />
+                            <comboitem value="C" label="Casado(a)"  />
+                            <comboitem value="D" label="Divorciado(a)"  />
+                            <comboitem value="V" label="Viuvo(a)"  />
+                        </combobox>
+                        
+                    </row>
+                    <row>Idade:
+                        <textbox width="100%"  value="@bind(vm.selected.idade)" />
+                    </row>
+                    <row>Logradouro:
+                        <textbox width="100%"  value="@bind(vm.selected.logradouro)" />
+                    </row>
+                    <row>Número:
+                        <textbox width="100%"  value="@bind(vm.selected.numero)"  />
+                    </row>
+                    <row>Bairro:
+                        <textbox width="100%"  value="@bind(vm.selected.bairro)"  />
+                    </row>
+                    <row>Estado:
+                        <textbox width="100%"  value="@bind(vm.selected.estado)"  />
+                    </row>
+                    <row>Telefone:
+                        <textbox width="100%"  value="@bind(vm.selected.telefone)"  />
+                    </row>
+                    <row>E-mail:
+                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.email)"  />
+                    </row>
+                    <row>Usuário:
+                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.user)"  />
+                    </row>
+                    <row>Senha:
+                        <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)"  />
+                    </row>
+                </rows>
+            </grid>
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaCliente')" />
+            </toolbar>
+            
+        </window>
+        
+        
+    </div>
+    
+    
+</zk>
