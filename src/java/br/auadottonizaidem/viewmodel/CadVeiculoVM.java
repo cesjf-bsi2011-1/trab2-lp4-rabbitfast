@@ -5,7 +5,7 @@
  */
 package br.auadottonizaidem.viewmodel;
 
-<<<<<<< HEAD
+
 import br.auadottonizaidem.dao.VeiculoJpaController;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
 import static br.auadottonizaidem.entity.Cliente_.estCivil;
@@ -25,7 +25,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Window;
-=======
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -33,7 +32,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
->>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
+
 
 /**
  *
@@ -41,21 +40,18 @@ import org.zkoss.zk.ui.select.Selectors;
  */
 public class CadVeiculoVM {
 
-<<<<<<< HEAD
     private List<Veiculo> listaVeiculo;
     private Veiculo selected, selectedPesq;
     private StatusCrud tipoVeiculo;
     @Wire
     private Window fmrCadVeiculo,fmrPesquisaVeiculo;
 
-=======
->>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-<<<<<<< HEAD
+
         selected = new Veiculo();
         tipoVeiculo = StatusCrud.insert;
     }
@@ -161,7 +157,6 @@ public class CadVeiculoVM {
         this.tipoVeiculo = tipoVeiculo;
     }
 
-=======
     }
->>>>>>> f8cc7ae1dd4adea3776203702c7f4459822d81c4
-}
+
+
