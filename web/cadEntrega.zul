@@ -8,6 +8,41 @@
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadEntregaVM')" >
         <label>CADASTRO DE ENTREGAS</label>
+        
+        <window title="Solicitar Entrega" closable="true" id="fmrCadEntregas"
+                position="center, center" width="500px" mode="modal" >
+            
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Origem da Entrega:
+                        <combobox width="95%" readonly="true" constraint="no empty" 
+                                  selectedItem="@bind(vm.origem)"
+                                  model="@bind(vm.listaLocalidades)"  >
+                            <template name="model">
+                                <comboitem label="@bind(each.regiao)"  />
+                            </template>
+                        </combobox>
+                    </row>
+                        <row>Destino da Entrega:
+                        <combobox width="95%" readonly="true" constraint="no empty" 
+                                  selectedItem="@bind(vm.destino)"
+                                  model="@bind(vm.listaLocalidades)"  >
+                            <template name="model">
+                                <comboitem label="@bind(each.regiao)"  />
+                            </template>
+                        </combobox>
+                    </row>
+                </rows>
+            </grid>    
+            <toolbar>
+                <toolbarbutton  label="Registrar Entrega" onClick="@command('gravaEntrega')" />
+            </toolbar>
+        </window>
+        
     
     </div>
 </zk>
