@@ -62,14 +62,16 @@ public class CadEntregaVM {
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
-        cliente = (Cliente) sessao.getAttribute("user");
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
         listaClientes = new ClienteJpaController(emf).findClienteEntities();
         listaVeiculos = new VeiculoJpaController(emf).findVeiculoEntities();
         entrega = new Entrega();
-
+        
+        //cliente = (Cliente) sessao.getAttribute("user");
+        cliente = new Cliente();
+        cliente.setIdCliente(1);
         selected = new Rota();
         origem = new Localidade();
         destino = new Localidade();
@@ -113,6 +115,7 @@ public class CadEntregaVM {
                 selected.setLocOrigem(origem);
                 selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
+                
 
             } catch (Exception ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +134,25 @@ public class CadEntregaVM {
         listaRotas = new RotaJpaController(emf).findRotaEntities();
 
     }
+    
+     @Command
+    public float calculaValorEntrega() {
+        //Fazer Select que busca veiculo desocupado
+        valor = 0; 
+        if(peso <= 50){
+            //Fazer Select que busca veiculo desocupado, e tipo MOTO
+            valor = 30;
+        }else if(peso > 50 && peso < 450){
+              //Fazer Select que busca veiculo desocupado, e tipo CARRO
+            valor = 70;
+        }else{
+              //Fazer Select que busca veiculo desocupado, e tipo CAMINHAO
+            valor = 150;
+        }
+        
+        return 0;
+    }
+    
 
     @Command
     public void apagaEntregas() {

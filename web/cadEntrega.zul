@@ -27,7 +27,7 @@
                             </template>
                         </combobox>
                     </row>
-                        <row>Destino da Entrega:
+                    <row>Destino da Entrega:
                         <combobox width="95%" readonly="true" constraint="no empty" 
                                   selectedItem="@bind(vm.destino)"
                                   model="@bind(vm.listaLocalidades)"  >
@@ -36,10 +36,20 @@
                             </template>
                         </combobox>
                     </row>
+                    <row>Peso:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.entrega.peso)"  />
+                    </row>
+                    <row>Descrição da Mercadoria:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.entrega.descricao)"  />
+                    </row>
+                    <row>Total:
+                    </row>
                 </rows>
             </grid>    
             <toolbar>
+                <toolbarbutton  label="Calcular valor da entrega" onClick="@command('calculaValorEntrega')"/>
                 <toolbarbutton  label="Registrar Entrega" onClick="@command('gravaEntrega')" />
+                
             </toolbar>
         </window>
         
