@@ -11,17 +11,21 @@ import br.auadottonizaidem.dao.RotaJpaController;
 import br.auadottonizaidem.dao.VeiculoJpaController;
 import br.auadottonizaidem.dao.EmpresaJpaController;
 import br.auadottonizaidem.dao.EntregaJpaController;
+import br.auadottonizaidem.dao.StatusJpaController;
 import br.auadottonizaidem.dao.exceptions.IllegalOrphanException;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
 import br.auadottonizaidem.entity.Entrega;
 import br.auadottonizaidem.entity.Localidade;
+import br.auadottonizaidem.entity.PontoReferencia;
 import br.auadottonizaidem.entity.Rota;
 import br.auadottonizaidem.entity.RotaPercurso;
 import br.auadottonizaidem.entity.Status;
+import br.auadottonizaidem.entity.StatusPK;
 import br.auadottonizaidem.entity.Veiculo;
 import br.auadottonizaidem.viewmodelutil.StatusCrud;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +64,7 @@ public class CadEntregaVM {
     private Query query;
     private EntityManager entity;
     private Empresa empresa;
+    private Status statusEntrega;
 
     @Wire
     private Window fmrCadEntregas;
@@ -127,8 +132,10 @@ public class CadEntregaVM {
                     entrega.setValor(valor);
                     entrega.setPlacaVeiculo(veiculo);
                     veiculo.setEstado("E");
+                    
                     new VeiculoJpaController(emf).edit(veiculo);
                     new EntregaJpaController(emf).create(entrega);
+                    registrarStatus(selected, entrega);
                     Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
                 } else {
                     Messagebox.show("Nenhum Veículo disponivel no momento");
@@ -158,8 +165,22 @@ public class CadEntregaVM {
         }
     }
 
-    private void registrarStatus(Rota rota, RotaPercurso rotaPercurso, Entrega entrega) {
-        Status st = new Status();
+    private void registrarStatus(Rota rota, Entrega entrega) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+//        RotaPercurso rotaPercurso = new RotaPercurso();
+//        PontoReferencia pontoReferencia = new PontoReferencia();
+//        pontoReferencia.setIdPontoReferencia(1);
+//        rotaPercurso.setPontoReferencia(pontoReferencia);
+//        rotaPercurso.setRota(rota);
+        
+        statusEntrega = new Status(rota.getIdRota(), 1, entrega.getIdEntrega());
+        Date date = new Date();
+        statusEntrega.setDataHoraPassagemPonto(date);
+        try {
+            new StatusJpaController(emf).create(statusEntrega);
+        } catch (Exception ex) {
+            Logger.getLogger(CadEntregaVM.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Command
