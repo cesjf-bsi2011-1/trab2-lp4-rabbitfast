@@ -9,9 +9,12 @@ import br.auadottonizaidem.dao.ClienteJpaController;
 import br.auadottonizaidem.dao.LocalidadeJpaController;
 import br.auadottonizaidem.dao.RotaJpaController;
 import br.auadottonizaidem.dao.VeiculoJpaController;
+import br.auadottonizaidem.dao.EmpresaJpaController;
+import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.dao.exceptions.IllegalOrphanException;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
 import br.auadottonizaidem.entity.Cliente;
+import br.auadottonizaidem.entity.Empresa;
 import br.auadottonizaidem.entity.Entrega;
 import br.auadottonizaidem.entity.Localidade;
 import br.auadottonizaidem.entity.Rota;
@@ -20,8 +23,10 @@ import br.auadottonizaidem.viewmodelutil.StatusCrud;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -42,18 +47,17 @@ public class CadEntregaVM {
 
     private List<Rota> listaRotas;
     private List<Localidade> listaLocalidades;
-    private List<Cliente> listaClientes;
-    private List<Veiculo> listaVeiculos;
     private Session sessao;
     private Rota selected;
     private Cliente cliente;
     private Entrega entrega;
     private Veiculo veiculo;
-    private String descricao;
-    private float valor;
-    private float peso;
+    private double valor;
     private Localidade origem;
     private Localidade destino;
+    private Query query;
+    private EntityManager entity;
+    private Empresa empresa;
 
     @Wire
     private Window fmrCadEntregas;
@@ -65,8 +69,7 @@ public class CadEntregaVM {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
-        listaClientes = new ClienteJpaController(emf).findClienteEntities();
-        listaVeiculos = new VeiculoJpaController(emf).findVeiculoEntities();
+        empresa = new EmpresaJpaController(emf).findEmpresa(1);
         entrega = new Entrega();
 
         //cliente = (Cliente) sessao.getAttribute("user");
@@ -110,18 +113,31 @@ public class CadEntregaVM {
     public void gravaEntrega() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
+        cliente.setIdCliente(1);
         if (status == StatusCrud.insert) {
             try {
                 selected.setLocOrigem(origem);
                 selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
+                entrega.setIdRota(selected);
+                entrega.setIdCliente(cliente);
+                if (verificaVeiculo()) {
+                    entrega.setValor(valor);
+                    entrega.setPlacaVeiculo(veiculo);
+                    veiculo.setEstado("E");
+                    new VeiculoJpaController(emf).edit(veiculo);
+                    new EntregaJpaController(emf).create(entrega);
+                    Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
+                } else {
+                    Messagebox.show("Nenhum Veículo disponivel no momento");
+                }
 
             } catch (Exception ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (status == StatusCrud.edit) {
             try {
-                new RotaJpaController(emf).edit(selected);
+                new EntregaJpaController(emf).edit(entrega);
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -129,27 +145,71 @@ public class CadEntregaVM {
             }
         }
         fmrCadEntregas.setVisible(false);
-        selected = new Rota();
-        listaRotas = new RotaJpaController(emf).findRotaEntities();
 
     }
 
-    @Command
-    public float calculaValorEntrega() {
-        //Fazer Select que busca veiculo desocupado
-        valor = 0;
-        if (peso <= 50) {
-            //Fazer Select que busca veiculo desocupado, e tipo MOTO
-            valor = 30;
-        } else if (peso > 50 && peso < 450) {
-            //Fazer Select que busca veiculo desocupado, e tipo CARRO
-            valor = 70;
+    private boolean verificaVeiculo() {
+        if (calculaValorEntrega() != 0) {
+            return true;
         } else {
-            //Fazer Select que busca veiculo desocupado, e tipo CAMINHAO
-            valor = 150;
+            return false;
         }
+    }
 
-        return 0;
+    @Command
+    public double calculaValorEntrega() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+        entity = emf.createEntityManager();
+        double peso = entrega.getPeso();
+        valor = 0;
+
+        query = entity.createNamedQuery("Veiculo.findEstadoParado"); 
+        List<Veiculo> listParado = query.getResultList(); //lista de veiculos parados caso P(parado) e E(entregando)
+
+        if (peso <= 50) { //Verifica se existe tipo de veiculo moto parado
+            int tipo;
+
+            for (int i = 0; i < listParado.size(); i++) {
+                tipo = listParado.get(i).getTipoVeiculo();
+                if (tipo == 1) {
+                    veiculo = listParado.get(i);
+                    valor = empresa.getPrecoMoto();
+                } else {
+                    valor = 0;
+                }
+            }
+
+            return valor;
+
+        } else if (peso > 50 && peso <= 450) { //Verifica se existe tipo de veiculo carro parado
+            int tipo;
+
+            for (int i = 0; i < listParado.size(); i++) {
+                tipo = listParado.get(i).getTipoVeiculo();
+                if (tipo == 2) {
+                    veiculo = listParado.get(i);
+                    valor = empresa.getPrecoCarro();
+                } else {
+                    valor = 0;
+                }
+            }
+
+            return valor;
+        } else { //Verifica se existe tipo de veiculo caminhão parado
+            int tipo; 
+
+            for (int i = 0; i < listParado.size(); i++) {
+                tipo = listParado.get(i).getTipoVeiculo();
+                if (tipo == 3) {
+                    veiculo = listParado.get(i);
+                    valor = empresa.getPrecoCaminhao();
+                } else {
+                    valor = 0;
+                }
+            }
+
+            return valor;
+        }
     }
 
     @Command
@@ -250,14 +310,6 @@ public class CadEntregaVM {
 
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
 }

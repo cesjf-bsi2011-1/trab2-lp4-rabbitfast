@@ -28,8 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v"),
     @NamedQuery(name = "Veiculo.findByPlacaVeiculo", query = "SELECT v FROM Veiculo v WHERE v.placaVeiculo = :placaVeiculo"),
     @NamedQuery(name = "Veiculo.findByNomeMotorista", query = "SELECT v FROM Veiculo v WHERE v.nomeMotorista = :nomeMotorista"),
-    @NamedQuery(name = "Veiculo.findByTipoVeiculo", query = "SELECT v FROM Veiculo v WHERE v.tipoVeiculo = :tipoVeiculo")})
+    @NamedQuery(name = "Veiculo.findByTipoVeiculo", query = "SELECT v FROM Veiculo v WHERE v.tipoVeiculo = :tipoVeiculo"),
+    @NamedQuery(name = "Veiculo.findEstadoParado", query = "SELECT v FROM Veiculo v WHERE v.estado = 'P'"),
+    @NamedQuery(name = "Veiculo.findByEstadoMoto", query = "SELECT v FROM Veiculo v WHERE v.estado = 'P' AND v.tipoVeiculo = 1"),
+    @NamedQuery(name = "Veiculo.findByEstadoCarro", query = "SELECT v FROM Veiculo v WHERE v.estado = 'P' AND v.tipoVeiculo = 2"),
+    @NamedQuery(name = "Veiculo.findByEstadoCaminhao", query = "SELECT v FROM Veiculo v WHERE v.estado = 'P' AND v.tipoVeiculo = 3")})
 public class Veiculo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -40,7 +45,7 @@ public class Veiculo implements Serializable {
     @Column(name = "tipo_veiculo")
     private Integer tipoVeiculo;
     @Column(name = "estado")
-    private Integer estado;
+    private String estado;
     @OneToMany(mappedBy = "placaVeiculo")
     private List<Entrega> entregaList;
 
@@ -71,17 +76,18 @@ public class Veiculo implements Serializable {
         return tipoVeiculo;
     }
 
-    public void setTipoVeiculo(Integer tipoVeiculo) {
-        this.tipoVeiculo = tipoVeiculo;
-    }
-
-    public Integer getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
-    }    
+    }   
+    
+
+    public void setTipoVeiculo(Integer tipoVeiculo) {
+        this.tipoVeiculo = tipoVeiculo;
+    }
 
     @XmlTransient
     public List<Entrega> getEntregaList() {
@@ -116,5 +122,5 @@ public class Veiculo implements Serializable {
     public String toString() {
         return "br.auadottonizaidem.dao.Veiculo[ placaVeiculo=" + placaVeiculo + " ]";
     }
-    
+
 }
