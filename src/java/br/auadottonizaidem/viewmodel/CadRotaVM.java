@@ -37,7 +37,6 @@ public class CadRotaVM {
 
     private List<Rota> listaRotas;
     private List<Localidade> listaLocalidades;
-    private List<Localidade> listaLocalidades1;
     private Rota selected;
     private Localidade origem;
     private Localidade destino;
@@ -176,14 +175,6 @@ public class CadRotaVM {
 
     public void setFmrCadRotas(Window fmrCadRotas) {
         this.fmrCadRotas = fmrCadRotas;
-    }
-
-    public List<Localidade> getListaLocalidades1() {
-        return listaLocalidades1;
-    }
-
-    public void setListaLocalidades1(List<Localidade> listaLocalidades1) {
-        this.listaLocalidades1 = listaLocalidades1;
     }
 
     public Localidade getOrigem() {

@@ -9,10 +9,40 @@
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.EditarClienteVM')" >
         <label>Editar Cliente</label>
         
+             <!--        Formulario de Listagem de Cliente-->
+        <window title="Cadastro de cliente" closable="true"
+                position="center, center" width="450px" mode="modal">
+            <toolbar>
+                <toolbarbutton  label="Fechar"/>
+            </toolbar>
+            <listbox rows="13" emptyMessage="Nenhum cliente Cadastrado!!!"
+                     model="@bind(vm.listaCliente)" 
+                     selectedItem="@bind(vm.selected)"
+                     onSelect="@command('open')"
+
+            >
+                <listhead>
+                    <listheader value="Nome" width="50px" />
+                    <listheader value="Nacionalidade" />
+                    <listheader value="Idade" width="80px" />
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell label="@bind(each.idCliente)" />
+                        <listcell label="@bind(each.nomeUsuario)" />
+                        <listcell label="@bind(each.idade)" />
+                    </listitem>
+                </template>
+                
+            </listbox>
+        </window>
+        
         <window title="Cadastro de Cliente" closable="true" id="fmrCadCliente"
-                position="center, center" width="450px" mode="modal" visible="true" >
+                position="center, center" width="450px" mode="modal" visible="false" onClose="self.visible = false;event.stopPropagation();" >
             <toolbar>
                 <toolbarbutton  label="Gravar" onClick="@command('gravaCliente')" />
+                <toolbarbutton  label="Alterar"  onClick="@command('alteraCliente')" visible="@bind(vm.status eq 'view')" />
+                
             </toolbar>
             <grid>
                 <columns height="0px">
@@ -26,33 +56,46 @@
                     <row>Nacionalidade:
                         <textbox  width="95%" value="@bind(vm.selected.nacionalidade)" disabled="@bind(vm.status eq 'view')" />
                     </row>
-                    <row>Idade:
-                        <textbox width="100%"  value="@bind(vm.selected.idade)" disabled="@bind(vm.status eq 'view')" />
+                    <row>Estado Civil:
+                        <combobox width="95%"
+                                  mold="rounded" 
+                                  readonly="true"
+                                  selectedItem="@bind(vm.selected.estCivil)" 
+                                  disabled="@bind(vm.status eq 'view')"
+                        >
+                            <comboitem value="S" label="Solteiro(a)"  />
+                            <comboitem value="C" label="Casado(a)"  />
+                            <comboitem value="D" label="Divorciado(a)"  />
+                            <comboitem value="V" label="Viuvo(a)"  />
+                        </combobox>
                     </row>
-                    <row>Logradouro:
-                        <textbox width="100%"  value="@bind(vm.selected.logradouro)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Número:
-                        <textbox width="100%"  value="@bind(vm.selected.numero)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Bairro:
-                        <textbox width="100%"  value="@bind(vm.selected.bairro)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Estado:
-                        <textbox width="100%"  value="@bind(vm.selected.estado)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Telefone:
-                        <textbox width="100%"  value="@bind(vm.selected.telefone)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>E-mail:
-                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.email)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Usuário:
-                        <textbox width="100%" constraint="no empty" value="@bind(vm.selected.user)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
-                    <row>Senha:
-                        <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="@bind(vm.status eq 'view')" />
-                    </row>
+                        <row>Idade:
+                            <textbox width="100%"  value="@bind(vm.selected.idade)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Logradouro:
+                            <textbox width="100%"  value="@bind(vm.selected.logradouro)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Número:
+                            <textbox width="100%"  value="@bind(vm.selected.numero)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Bairro:
+                            <textbox width="100%"  value="@bind(vm.selected.bairro)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Estado:
+                            <textbox width="100%"  value="@bind(vm.selected.estado)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Telefone:
+                            <textbox width="100%"  value="@bind(vm.selected.telefone)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>E-mail:
+                            <textbox width="100%" constraint="no empty" value="@bind(vm.selected.email)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Usuário:
+                            <textbox width="100%" constraint="no empty" value="@bind(vm.selected.user)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Senha:
+                            <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
                 </rows>
             </grid>
             

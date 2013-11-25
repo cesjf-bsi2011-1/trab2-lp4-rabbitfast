@@ -79,7 +79,7 @@ public class TemplateVM {
             painelEmpresa();
         } else {
             winLogin.setVisible(false);
-            sessao.setAttribute("user", user);
+            sessao.setAttribute("user", user);                    
             painelCliente();
         }
 
