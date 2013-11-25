@@ -39,6 +39,8 @@ public class Veiculo implements Serializable {
     private String nomeMotorista;
     @Column(name = "tipo_veiculo")
     private Integer tipoVeiculo;
+    @Column(name = "estado")
+    private Integer estado;
     @OneToMany(mappedBy = "placaVeiculo")
     private List<Entrega> entregaList;
 
@@ -72,6 +74,14 @@ public class Veiculo implements Serializable {
     public void setTipoVeiculo(Integer tipoVeiculo) {
         this.tipoVeiculo = tipoVeiculo;
     }
+
+    public Integer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
+    }    
 
     @XmlTransient
     public List<Entrega> getEntregaList() {

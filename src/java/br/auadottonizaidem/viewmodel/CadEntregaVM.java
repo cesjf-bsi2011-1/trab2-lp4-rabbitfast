@@ -68,7 +68,7 @@ public class CadEntregaVM {
         listaClientes = new ClienteJpaController(emf).findClienteEntities();
         listaVeiculos = new VeiculoJpaController(emf).findVeiculoEntities();
         entrega = new Entrega();
-        
+
         //cliente = (Cliente) sessao.getAttribute("user");
         cliente = new Cliente();
         cliente.setIdCliente(1);
@@ -115,7 +115,6 @@ public class CadEntregaVM {
                 selected.setLocOrigem(origem);
                 selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
-                
 
             } catch (Exception ex) {
                 Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,25 +133,24 @@ public class CadEntregaVM {
         listaRotas = new RotaJpaController(emf).findRotaEntities();
 
     }
-    
-     @Command
+
+    @Command
     public float calculaValorEntrega() {
         //Fazer Select que busca veiculo desocupado
-        valor = 0; 
-        if(peso <= 50){
+        valor = 0;
+        if (peso <= 50) {
             //Fazer Select que busca veiculo desocupado, e tipo MOTO
             valor = 30;
-        }else if(peso > 50 && peso < 450){
-              //Fazer Select que busca veiculo desocupado, e tipo CARRO
+        } else if (peso > 50 && peso < 450) {
+            //Fazer Select que busca veiculo desocupado, e tipo CARRO
             valor = 70;
-        }else{
-              //Fazer Select que busca veiculo desocupado, e tipo CAMINHAO
+        } else {
+            //Fazer Select que busca veiculo desocupado, e tipo CAMINHAO
             valor = 150;
         }
-        
+
         return 0;
     }
-    
 
     @Command
     public void apagaEntregas() {
