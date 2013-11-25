@@ -72,7 +72,7 @@ public class CadEntregaVM {
         empresa = new EmpresaJpaController(emf).findEmpresa(1);
         entrega = new Entrega();
 
-        //cliente = (Cliente) sessao.getAttribute("user");
+        cliente = (Cliente) sessao.getAttribute("user");
         cliente = new Cliente();
         cliente.setIdCliente(1);
         selected = new Rota();
@@ -312,4 +312,21 @@ public class CadEntregaVM {
         this.veiculo = veiculo;
     }
 
+    public Session getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(Session sessao) {
+        this.sessao = sessao;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    
 }
