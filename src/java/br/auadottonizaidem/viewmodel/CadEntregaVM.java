@@ -18,6 +18,8 @@ import br.auadottonizaidem.entity.Empresa;
 import br.auadottonizaidem.entity.Entrega;
 import br.auadottonizaidem.entity.Localidade;
 import br.auadottonizaidem.entity.Rota;
+import br.auadottonizaidem.entity.RotaPercurso;
+import br.auadottonizaidem.entity.Status;
 import br.auadottonizaidem.entity.Veiculo;
 import br.auadottonizaidem.viewmodelutil.StatusCrud;
 import java.util.List;
@@ -72,7 +74,7 @@ public class CadEntregaVM {
         empresa = new EmpresaJpaController(emf).findEmpresa(1);
         entrega = new Entrega();
 
-        cliente = (Cliente) sessao.getAttribute("user");
+        //cliente = (Cliente) sessao.getAttribute("user");
         cliente = new Cliente();
         cliente.setIdCliente(1);
         selected = new Rota();
@@ -156,6 +158,10 @@ public class CadEntregaVM {
         }
     }
 
+    private void registrarStatus(Rota rota, RotaPercurso rotaPercurso, Entrega entrega) {
+        Status st = new Status();
+    }
+
     @Command
     public double calculaValorEntrega() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
@@ -163,7 +169,7 @@ public class CadEntregaVM {
         double peso = entrega.getPeso();
         valor = 0;
 
-        query = entity.createNamedQuery("Veiculo.findEstadoParado"); 
+        query = entity.createNamedQuery("Veiculo.findEstadoParado");
         List<Veiculo> listParado = query.getResultList(); //lista de veiculos parados caso P(parado) e E(entregando)
 
         if (peso <= 50) { //Verifica se existe tipo de veiculo moto parado
@@ -196,7 +202,7 @@ public class CadEntregaVM {
 
             return valor;
         } else { //Verifica se existe tipo de veiculo caminhão parado
-            int tipo; 
+            int tipo;
 
             for (int i = 0; i < listParado.size(); i++) {
                 tipo = listParado.get(i).getTipoVeiculo();
@@ -328,5 +334,4 @@ public class CadEntregaVM {
         this.empresa = empresa;
     }
 
-    
 }
