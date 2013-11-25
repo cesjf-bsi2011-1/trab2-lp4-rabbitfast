@@ -7,7 +7,28 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadPontoReferenciaVM')" >
-        <label>CADASTRO DE PONTO REFERENCIA</label>
+        
+        
+        <!-- Cadastro de Ponto de Referência -->
+        <window title="Cadastro de Ponto de Referência" closable="true" id="fmrCadPonRef"
+                position="center, center" width="450px" mode="modal" visible="true"   >
+            
+            <grid>
+                <columns height="0px">
+                    <column></column>
+                    <column></column>
+                </columns>   
+                <rows>
+                    <row>Ponto de Referência:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.descrPonto)"  />
+                    </row>
+                </rows>
+            </grid>
+            <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaPontoReferencia')" />
+            </toolbar>
+            
+        </window>
     
     </div>
 </zk>
