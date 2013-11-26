@@ -8,15 +8,22 @@ import br.auadottonizaidem.dao.ClienteJpaController;
 import br.auadottonizaidem.dao.EmpresaJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -30,12 +37,12 @@ import org.zkoss.zul.Window;
  */
 public class TemplateVM {
 
+    HttpSession session;
     //   para pegar uma div interna, filha, está pegando
     @Wire
     private Center center;
     private Window winLogin;
     private String login, senha;
-
     @WireVariable
     Session sessao;
     private Cliente user;
@@ -73,13 +80,24 @@ public class TemplateVM {
 
         if (user == null && empresa == null) {
             Messagebox.show("Login ou senha incorreta");
-        }else if (empresa != null) {
+        } else if (empresa != null) {
             winLogin.setVisible(false);
-            sessao.setAttribute("empresa", empresa);
+            session.setAttribute("empresa", empresa);
             painelEmpresa();
         } else {
             winLogin.setVisible(false);
-            sessao.setAttribute("user", user);                    
+//            Execution exec = Executions.getCurrent();
+//            HttpServletResponse response = (HttpServletResponse)exec.getNativeResponse();
+//            try {
+//                response.sendRedirect(response.encodeRedirectURL("/painelCliente.zul")); //assume there is /login
+//                
+//            } catch (IOException ex) {
+//                Logger.getLogger(TemplateVM.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            exec.setVoided(true); //no need to create 
+            session = (HttpSession) Sessions.getCurrent().getNativeSession();
+            Sessions.getCurrent().setAttribute("user", user);
+            session.setAttribute("user", user);
             painelCliente();
         }
 
@@ -89,12 +107,12 @@ public class TemplateVM {
     public void cadCliente() {
         Executions.sendRedirect("cadCliente.zul");
     }
-    
+
     @Command
     public void painelCliente() {
         Executions.sendRedirect("painelCliente.zul");
     }
-    
+
     @Command
     public void painelEmpresa() {
         Executions.sendRedirect("painelEmpresa.zul");
@@ -116,4 +134,11 @@ public class TemplateVM {
         this.senha = senha;
     }
 
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
 }

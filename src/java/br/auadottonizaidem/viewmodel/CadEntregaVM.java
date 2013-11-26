@@ -44,6 +44,9 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.zkoss.zk.ui.Sessions;
 
 /**
  *
@@ -53,7 +56,7 @@ public class CadEntregaVM {
 
     private List<Rota> listaRotas;
     private List<Localidade> listaLocalidades;
-    private Session sessao;
+    private HttpSession sessao;
     private Rota selected;
     private Cliente cliente;
     private Entrega entrega;
@@ -77,10 +80,10 @@ public class CadEntregaVM {
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
         empresa = new EmpresaJpaController(emf).findEmpresa(1);
-        entrega = new Entrega();
-
-        //cliente = (Cliente) sessao.getAttribute("user");
+        entrega = new Entrega();        
         cliente = new Cliente();
+        sessao = (HttpSession) Sessions.getCurrent().getNativeSession();
+        cliente = (Cliente)sessao.getAttribute("user");
         cliente.setIdCliente(1);
         selected = new Rota();
         origem = new Localidade();
@@ -339,11 +342,11 @@ public class CadEntregaVM {
         this.veiculo = veiculo;
     }
 
-    public Session getSessao() {
+    public HttpSession getSessao() {
         return sessao;
     }
 
-    public void setSessao(Session sessao) {
+    public void setSessao(HttpSession sessao) {
         this.sessao = sessao;
     }
 
