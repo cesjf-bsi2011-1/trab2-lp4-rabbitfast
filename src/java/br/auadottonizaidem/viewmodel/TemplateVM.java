@@ -86,18 +86,10 @@ public class TemplateVM {
             painelEmpresa();
         } else {
             winLogin.setVisible(false);
-//            Execution exec = Executions.getCurrent();
-//            HttpServletResponse response = (HttpServletResponse)exec.getNativeResponse();
-//            try {
-//                response.sendRedirect(response.encodeRedirectURL("/painelCliente.zul")); //assume there is /login
-//                
-//            } catch (IOException ex) {
-//                Logger.getLogger(TemplateVM.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            exec.setVoided(true); //no need to create 
-            session = (HttpSession) Sessions.getCurrent().getNativeSession();
-            Sessions.getCurrent().setAttribute("user", user);
-            session.setAttribute("user", user);
+//            session = (HttpSession) Sessions.getCurrent().getNativeSession();
+//            Sessions.getCurrent().setAttribute("user", user);
+//            session.setAttribute("user", user);
+            Autenticacao autentica = new Autenticacao(user);
             painelCliente();
         }
 

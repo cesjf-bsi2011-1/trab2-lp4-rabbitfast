@@ -46,6 +46,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
 /**
@@ -58,7 +59,7 @@ public class CadEntregaVM {
     private List<Localidade> listaLocalidades;
     private HttpSession sessao;
     private Rota selected;
-    private Cliente cliente;
+    private Cliente cliente = null;
     private Entrega entrega;
     private Veiculo veiculo;
     private double valor;
@@ -68,28 +69,37 @@ public class CadEntregaVM {
     private EntityManager entity;
     private Empresa empresa;
     private Status statusEntrega;
-
     @Wire
     private Window fmrCadEntregas;
     private StatusCrud status;
 
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
-        Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaRotas = new RotaJpaController(emf).findRotaEntities();
         listaLocalidades = new LocalidadeJpaController(emf).findLocalidadeEntities();
         empresa = new EmpresaJpaController(emf).findEmpresa(1);
-        entrega = new Entrega();        
-        cliente = new Cliente();
-        sessao = (HttpSession) Sessions.getCurrent().getNativeSession();
-        cliente = (Cliente)sessao.getAttribute("user");
-        cliente.setIdCliente(1);
+        entrega = new Entrega();
+//        sessao = (HttpSession) Sessions.getCurrent().getNativeSession();
+//        cliente = (Cliente)sessao.getAttribute("user");
+        Autenticacao a = new Autenticacao();
+        cliente = a.getUserSession();
+        if (cliente == null) {
+            directIndex();
+        } else {
+            Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
+        }
         selected = new Rota();
         origem = new Localidade();
         destino = new Localidade();
         status = StatusCrud.insert;
 
+    }
+
+    @Command
+    public void directIndex() {
+        Executions.sendRedirect("index.zul");
     }
 
     @NotifyChange({"selected", "origem", "destino", "status"})
@@ -135,7 +145,7 @@ public class CadEntregaVM {
                     entrega.setValor(valor);
                     entrega.setPlacaVeiculo(veiculo);
                     veiculo.setEstado("E");
-                    
+
                     new VeiculoJpaController(emf).edit(veiculo);
                     new EntregaJpaController(emf).create(entrega);
                     registrarStatus(selected, entrega);
@@ -175,7 +185,7 @@ public class CadEntregaVM {
 //        pontoReferencia.setIdPontoReferencia(1);
 //        rotaPercurso.setPontoReferencia(pontoReferencia);
 //        rotaPercurso.setRota(rota);
-        
+
         statusEntrega = new Status(rota.getIdRota(), 1, entrega.getIdEntrega());
         Date date = new Date();
         statusEntrega.setDataHoraPassagemPonto(date);
@@ -357,5 +367,4 @@ public class CadEntregaVM {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
-
 }
