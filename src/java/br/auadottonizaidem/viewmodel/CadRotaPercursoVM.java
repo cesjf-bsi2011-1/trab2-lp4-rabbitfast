@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -26,7 +27,9 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import static sun.net.www.http.HttpClient.New;
 
@@ -38,23 +41,23 @@ public class CadRotaPercursoVM {
 
     private List<PontoReferencia> listaPontoReferencia;
     private RotaPercurso selected;
-
     private List<Rota> listaRotas;
     private Rota rota;
     private Localidade origem;
     private Localidade destino;
-    
     @Wire
     private Window fmrCadPercurso;
     private StatusCrud status;
+    @Wire
+    private Window telaCadRotaPercurso;
 
-     @AfterCompose
+    @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        listaPontoReferencia = new PontoReferenciaJpaController(emf).findPontoReferenciaEntities();
         listaRotas = new RotaJpaController(emf).findRotaEntities();
+        rota = new Rota();
         selected = new RotaPercurso();
         status = StatusCrud.insert;
     }
@@ -97,7 +100,24 @@ public class CadRotaPercursoVM {
 //        status = StatusCrud.view;
 //        selected = new PontoReferencia();
 //        listaPontoReferencia = new PontoReferenciaJpaController(emf).findPontoReferenciaEntities();
+    }
 
+    @NotifyChange({"listaPontoReferencia"})//para atualizar assim que gravar no banco de dados.
+    @Command
+    public void invoqTelaCadastro() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+        listaPontoReferencia = new PontoReferenciaJpaController(emf).findPontoReferenciaEntities();
+        telaCadRotaPercurso.doModal();
+    }
+
+    @Command
+    public void move(@BindingParam("dragged") Component dragged, @BindingParam("droped")Component droped) {
+        if (droped instanceof Listitem) {
+            ((Listitem)droped).getParent().insertBefore(dragged, droped);
+        } else {
+            ((Textbox)dragged.getChildren().get(1).getChildren().get(0)).setVisible(true);
+            droped.appendChild(dragged );
+        }
     }
 
     public List<PontoReferencia> getListaPontoReferencia() {
@@ -155,7 +175,6 @@ public class CadRotaPercursoVM {
     public void setFmrCadPercurso(Window fmrCadPercurso) {
         this.fmrCadPercurso = fmrCadPercurso;
     }
-
 
     public StatusCrud getStatus() {
         return status;

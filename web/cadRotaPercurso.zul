@@ -6,8 +6,58 @@
     
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadRotaPercursoVM')" >
-        <label>CADASTRO DE ROTA PERCURSO</label>
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadRotaPercursoVM')" >        
+        <h:h2>Rota Percurso</h:h2>
+        
+        <listbox model="@bind(vm.listaRotas)" 
+                 mold="paging" 
+                 pageSize="6" 
+                 rows="6" 
+                 selectedItem="@bind(vm.rota)"
+                 onSelect="@command('invoqTelaCadastro')"
+                 emptyMessage="Não há rotas cadastradas no momento">
+            
+            <!--QUANTIDADES DE COLUNAS DA LISTA-->
+            <listhead>
+                <listheader label="Rota Origem" width="200px" />
+                <listheader label="Rota Destino" width="200px"/>
+            </listhead>
+            <template name="model">
+                <listitem>
+                    <listcell label="@bind(each.locOrigem.regiao)" />
+                    <listcell label="@bind(each.locDestino.regiao)" />
+                </listitem>
+            </template> 
+        </listbox>  
+        
+        <window title="Cadastro de Rota Percurso" id="telaCadRotaPercurso" visible="false" 
+                onClose="self.visible = false;event.stopPropagation();" closable="true"
+                position="center, center" width="650px">
+            Origem: <label value="@bind(vm.rota.locOrigem.regiao)" />
+            <h:br />            
+            Destino: <label value="@bind(vm.rota.locDestino.regiao)" />
+            <h:br />
+            
+            <hlayout>
+                
+                <listbox id="left" height="250px" width="300px"
+                         model="@bind(vm.listaPontoReferencia)"
+                         onDrop="@command('move', dragged=event.dragged, droped=self)" droppable="true" oddRowSclass="non-odd">
+                    <template name="model">
+                        <listitem onDrop="@command('move', dragged=event.dragged, droped=self)" draggable="true" droppable="true">
+                            <listcell label="@bind(each.descrPonto)" />
+                            <listcell><textbox visible="false"/></listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+                <separator orient="vertical" spacing="8px" />
+                <listbox id="right" height="250px" width="300px" 
+                         onDrop="@command('move', dragged=event.dragged, droped=self)" droppable="true" oddRowSclass="non-odd">
+                   
+                </listbox>
+            </hlayout>
+            
+        </window>      
     
     </div>
 </zk>
