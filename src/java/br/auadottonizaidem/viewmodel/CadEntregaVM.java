@@ -180,11 +180,6 @@ public class CadEntregaVM {
 
     private void registrarStatus(Rota rota, Entrega entrega) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-//        RotaPercurso rotaPercurso = new RotaPercurso();
-//        PontoReferencia pontoReferencia = new PontoReferencia();
-//        pontoReferencia.setIdPontoReferencia(1);
-//        rotaPercurso.setPontoReferencia(pontoReferencia);
-//        rotaPercurso.setRota(rota);
 
         statusEntrega = new Status(rota.getIdRota(), 1, entrega.getIdEntrega());
         Date date = new Date();
