@@ -5,7 +5,6 @@
 package br.auadottonizaidem.viewmodel;
 
 import br.auadottonizaidem.dao.ClienteJpaController;
-import br.auadottonizaidem.dao.exceptions.IllegalOrphanException;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.viewmodelutil.StatusCrud;
@@ -14,14 +13,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpSession;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 /**
@@ -30,11 +32,14 @@ import org.zkoss.zul.Window;
  */
 public class EditarClienteVM {
 
+    HttpSession session;
     private List<Cliente> listaCliente;
     private Cliente selected;
     @Wire
-    private Window fmrCadCliente;
+    private Window frmEditaCliente;
     private StatusCrud status;
+    private Cliente cli, cliente;
+    private Cliente id;
 
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
@@ -42,15 +47,29 @@ public class EditarClienteVM {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         listaCliente = new ClienteJpaController(emf).findClienteEntities();
-        selected = new Cliente();
-        status = StatusCrud.insert;
+        Autenticacao autenticacao = new Autenticacao();
+        selected = autenticacao.getUserSession();
+        frmEditaCliente.doModal();
     }
 
     @NotifyChange({"selected", "status"})
     @Command
     public void open() {
         status = StatusCrud.view;
-        fmrCadCliente.doModal();
+    }
+
+    @Command
+    public void Valida() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+
+        cli = new ClienteJpaController(emf).findUserById(id);
+
+        if (cli.getIdCliente().equals(cliente.getIdCliente())) {
+            frmEditaCliente.setVisible(true);
+
+        } else {
+            Messagebox.show("Cliente incorreto");
+        }
 
     }
 
@@ -59,38 +78,21 @@ public class EditarClienteVM {
     public void novo() {
         selected = new Cliente();
         status = StatusCrud.insert;
-        fmrCadCliente.doModal();
+        frmEditaCliente.doModal();
 
     }
-
-    @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
+    
     @Command
-    public void alteraCliente() {
-        status = StatusCrud.edit;
-
-    }
-
-    @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
-    @Command
-    public void gravaCliente() {
+    public void alteraCliente() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
-        if (status == StatusCrud.insert) {
-            new ClienteJpaController(emf).create(selected);
-        } else if (status == StatusCrud.edit) {
-            try {
-                new ClienteJpaController(emf).edit(selected);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            new ClienteJpaController(emf).edit(selected);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
         }
-        fmrCadCliente.setVisible(false);
-        status = StatusCrud.view;
-        selected = new Cliente();
-        listaCliente = new ClienteJpaController(emf).findClienteEntities();
-
+        Messagebox.show("Cliente Editado com sucesso!");
+        frmEditaCliente.setVisible(false);
     }
 
     @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
@@ -99,7 +101,7 @@ public class EditarClienteVM {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
             new ClienteJpaController(emf).destroy(selected.getIdCliente());
-            fmrCadCliente.setVisible(false);
+            frmEditaCliente.setVisible(false);
             status = StatusCrud.view;
             selected = new Cliente();
             listaCliente = new ClienteJpaController(emf).findClienteEntities();
@@ -107,6 +109,11 @@ public class EditarClienteVM {
             Logger.getLogger(EditarClienteVM.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    @Command
+    public void painelCliente() {
+        Executions.sendRedirect("painelCliente.zul");
     }
 
     public Cliente getSelected() {
@@ -131,6 +138,30 @@ public class EditarClienteVM {
 
     public void setListaCliente(List<Cliente> listaCliente) {
         this.listaCliente = listaCliente;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Cliente getId() {
+        return id;
+    }
+
+    public void setId(Cliente id) {
+        this.id = id;
     }
 
 }

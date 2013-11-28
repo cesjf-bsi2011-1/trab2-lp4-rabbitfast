@@ -6,42 +6,12 @@
     
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.EditarClienteVM')" >
-        <label>Editar Cliente</label>
-        
-             <!--        Formulario de Listagem de Cliente-->
-        <window title="Cadastro de cliente" closable="true"
-                position="center, center" width="450px" mode="modal">
+         viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.EditarClienteVM')"  >
+        <label>Editar Cliente</label>        
+        <window title="Cadastro de Cliente" closable="true" id="frmEditaCliente"
+                position="center, center" width="450px" mode="modal" visible="true" onClose="self.visible = false;event.stopPropagation();" >
             <toolbar>
-                <toolbarbutton  label="Fechar"/>
-            </toolbar>
-            <listbox rows="13" emptyMessage="Nenhum cliente Cadastrado!!!"
-                     model="@bind(vm.listaCliente)" 
-                     selectedItem="@bind(vm.selected)"
-                     onSelect="@command('open')"
-
-            >
-                <listhead>
-                    <listheader value="Nome" width="50px" />
-                    <listheader value="Nacionalidade" />
-                    <listheader value="Idade" width="80px" />
-                </listhead>
-                <template name="model">
-                    <listitem>
-                        <listcell label="@bind(each.idCliente)" />
-                        <listcell label="@bind(each.nomeUsuario)" />
-                        <listcell label="@bind(each.idade)" />
-                    </listitem>
-                </template>
-                
-            </listbox>
-        </window>
-        
-        <window title="Cadastro de Cliente" closable="true" id="fmrCadCliente"
-                position="center, center" width="450px" mode="modal" visible="false" onClose="self.visible = false;event.stopPropagation();" >
-            <toolbar>
-                <toolbarbutton  label="Gravar" onClick="@command('gravaCliente')" />
-                <toolbarbutton  label="Alterar"  onClick="@command('alteraCliente')" visible="@bind(vm.status eq 'view')" />
+                <toolbarbutton  label="Alterar"  onClick="@command('alteraCliente')" />
                 
             </toolbar>
             <grid>
