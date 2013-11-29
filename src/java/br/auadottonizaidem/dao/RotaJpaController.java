@@ -143,13 +143,13 @@ public class RotaJpaController implements Serializable {
                 locDestinoNew = em.getReference(locDestinoNew.getClass(), locDestinoNew.getIdLocalizacao());
                 rota.setLocDestino(locDestinoNew);
             }
-            List<RotaPercurso> attachedRotaPercursoListNew = new ArrayList<RotaPercurso>();
-            for (RotaPercurso rotaPercursoListNewRotaPercursoToAttach : rotaPercursoListNew) {
-                rotaPercursoListNewRotaPercursoToAttach = em.getReference(rotaPercursoListNewRotaPercursoToAttach.getClass(), rotaPercursoListNewRotaPercursoToAttach.getRotaPercursoPK());
-                attachedRotaPercursoListNew.add(rotaPercursoListNewRotaPercursoToAttach);
-            }
-            rotaPercursoListNew = attachedRotaPercursoListNew;
-            rota.setRotaPercursoList(rotaPercursoListNew);
+//            List<RotaPercurso> attachedRotaPercursoListNew = new ArrayList<RotaPercurso>();
+//            for (RotaPercurso rotaPercursoListNewRotaPercursoToAttach : rotaPercursoListNew) {
+//                rotaPercursoListNewRotaPercursoToAttach = em.getReference(rotaPercursoListNewRotaPercursoToAttach.getClass(), rotaPercursoListNewRotaPercursoToAttach.getRotaPercursoPK());
+//                attachedRotaPercursoListNew.add(rotaPercursoListNewRotaPercursoToAttach);
+//            }
+//            rotaPercursoListNew = attachedRotaPercursoListNew;
+//            rota.setRotaPercursoList(rotaPercursoListNew);
             List<Entrega> attachedEntregaListNew = new ArrayList<Entrega>();
             for (Entrega entregaListNewEntregaToAttach : entregaListNew) {
                 entregaListNewEntregaToAttach = em.getReference(entregaListNewEntregaToAttach.getClass(), entregaListNewEntregaToAttach.getIdEntrega());

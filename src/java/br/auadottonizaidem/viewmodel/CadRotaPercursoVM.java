@@ -8,12 +8,14 @@ package br.auadottonizaidem.viewmodel;
 import br.auadottonizaidem.dao.PontoReferenciaJpaController;
 import br.auadottonizaidem.dao.RotaJpaController;
 import br.auadottonizaidem.dao.RotaPercursoJpaController;
+import br.auadottonizaidem.dao.exceptions.IllegalOrphanException;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
 import br.auadottonizaidem.dao.exceptions.PreexistingEntityException;
 import br.auadottonizaidem.entity.Localidade;
 import br.auadottonizaidem.entity.PontoReferencia;
 import br.auadottonizaidem.entity.Rota;
 import br.auadottonizaidem.entity.RotaPercurso;
+import br.auadottonizaidem.entity.RotaPercursoPK;
 import br.auadottonizaidem.viewmodelutil.StatusCrud;
 import java.util.List;
 import java.util.logging.Level;
@@ -84,35 +86,32 @@ public class CadRotaPercursoVM {
     @NotifyChange({"listaPontoReferencia", "selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void gravaRotaPercurso(@BindingParam("lb") Component listBox) {
-        System.out.println("==>"+listBox.getId());
+        int i = 1;
         for (Component li : listBox.getChildren()) {
+            RotaPercurso rp = new RotaPercurso();
             PontoReferencia pr = ((Listitem)li).getValue();
-            System.out.println("===>"+pr.getDescrPonto());
-            System.out.println("====>"+((Textbox)li.getChildren().get(1).getChildren().get(0)).getValue());
+            rp.setPontoReferencia(pr);
+            rp.setSequencia(i++);
+            rp.setRotaPercursoPK(new RotaPercursoPK(rota.getIdRota(), pr.getIdPontoReferencia()));
+            String distancia = ((String)((Textbox)li.getChildren().get(1).getChildren().get(0)).getValue());
+            
+            rp.setDistancia(Double.parseDouble(distancia));
+            
+            rota.getRotaPercursoList().add(rp);
         }
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-//
-//        if (status == StatusCrud.insert) {
-//            selected = new RotaPercurso();
-//            try {
-//                new RotaPercursoJpaController(emf).create(selected);
-//            } catch (PreexistingEntityException ex) {
-//                Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (Exception ex) {
-//                Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } else if (status == StatusCrud.edit) {
-//            try {
-//                new RotaPercursoJpaController(emf).edit(selected);
-//            } catch (NonexistentEntityException ex) {
-//                Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (Exception ex) {
-//                Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        fmrCadPercurso.setVisible(false);
-//        Messagebox.show("Cadastro realizado com sucesso!");
-//        status = StatusCrud.view;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+        try {
+            new RotaJpaController(emf).edit(rota);
+        } catch (IllegalOrphanException ex) {
+            Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CadRotaPercursoVM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Messagebox.show("Rota Percurso Cadastrado com sucesso!");
+        fmrCadPercurso.setVisible(false);
     }
 
     @NotifyChange({"listaPontoReferencia"})//para atualizar assim que gravar no banco de dados.
