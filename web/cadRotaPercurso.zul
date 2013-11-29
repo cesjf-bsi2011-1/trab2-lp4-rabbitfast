@@ -56,7 +56,9 @@
                    
                 </listbox>
             </hlayout>
-            
+             <toolbar>
+                <toolbarbutton  label="Gravar" onClick="@command('gravaRotaPercurso', lb=right)" />
+            </toolbar>
         </window>      
     
     </div>

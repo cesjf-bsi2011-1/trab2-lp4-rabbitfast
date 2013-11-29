@@ -82,14 +82,14 @@ public class TemplateVM {
             Messagebox.show("Login ou senha incorreta");
         } else if (empresa != null) {
             winLogin.setVisible(false);
-            session.setAttribute("empresa", empresa);
+            new Autenticacao(empresa);           
             painelEmpresa();
         } else {
             winLogin.setVisible(false);
 //            session = (HttpSession) Sessions.getCurrent().getNativeSession();
 //            Sessions.getCurrent().setAttribute("user", user);
 //            session.setAttribute("user", user);
-            Autenticacao autentica = new Autenticacao(user);
+            new Autenticacao(user);
             painelCliente();
         }
 
