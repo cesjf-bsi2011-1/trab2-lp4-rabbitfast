@@ -50,10 +50,8 @@ public class CadRotaPercursoVM {
     private Localidade origem;
     private Localidade destino;
     @Wire
-    private Window fmrCadPercurso;
-    private StatusCrud status;
-    @Wire
     private Window telaCadRotaPercurso;
+    private StatusCrud status;
 
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
@@ -70,7 +68,7 @@ public class CadRotaPercursoVM {
     @Command
     public void open() {
         status = StatusCrud.view;
-        fmrCadPercurso.doModal();
+        telaCadRotaPercurso.doModal();
 
     }
 
@@ -79,13 +77,15 @@ public class CadRotaPercursoVM {
     public void novo() {
         selected = new RotaPercurso();
         status = StatusCrud.insert;
-        fmrCadPercurso.doModal();
+        telaCadRotaPercurso.doModal();
 
     }
 
     @NotifyChange({"listaPontoReferencia", "selected", "status"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void gravaRotaPercurso(@BindingParam("lb") Component listBox) {
+        
+        try{
         int i = 1;
         for (Component li : listBox.getChildren()) {
             RotaPercurso rp = new RotaPercurso();
@@ -99,6 +99,9 @@ public class CadRotaPercursoVM {
             
             rota.getRotaPercursoList().add(rp);
         }
+        }catch(Exception e){
+            Messagebox.show("Algo deu errado, Confira os campos necessarios");
+        }
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         try {
             new RotaJpaController(emf).edit(rota);
@@ -111,7 +114,7 @@ public class CadRotaPercursoVM {
         }
         
         Messagebox.show("Rota Percurso Cadastrado com sucesso!");
-        fmrCadPercurso.setVisible(false);
+        telaCadRotaPercurso.setVisible(false);
     }
 
     @NotifyChange({"listaPontoReferencia"})//para atualizar assim que gravar no banco de dados.
@@ -186,13 +189,15 @@ public class CadRotaPercursoVM {
         this.destino = destino;
     }
 
-    public Window getFmrCadPercurso() {
-        return fmrCadPercurso;
+    public Window getTelaCadRotaPercurso() {
+        return telaCadRotaPercurso;
     }
 
-    public void setFmrCadPercurso(Window fmrCadPercurso) {
-        this.fmrCadPercurso = fmrCadPercurso;
+    public void setTelaCadRotaPercurso(Window telaCadRotaPercurso) {
+        this.telaCadRotaPercurso = telaCadRotaPercurso;
     }
+    
+    
 
     public StatusCrud getStatus() {
         return status;
