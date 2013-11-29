@@ -214,4 +214,15 @@ public class ClienteJpaController implements Serializable {
        
     }
     
+      public Cliente findUserBySenha(String senha) {
+        try {
+            String sql = "select s from Cliente s where  s.senha = :senha";
+            Query q = getEntityManager().createQuery(sql);
+            q.setParameter("senha", senha);
+
+            return (Cliente) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

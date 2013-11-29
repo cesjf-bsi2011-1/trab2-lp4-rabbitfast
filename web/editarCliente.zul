@@ -9,7 +9,8 @@
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.EditarClienteVM')"  >
         <label>Editar Cliente</label>        
         <window title="Cadastro de Cliente" closable="true" id="frmEditaCliente"
-                position="center, center" width="450px" mode="modal" visible="true" onClose="self.visible = false;event.stopPropagation();" >
+                position="center, center" width="450px" mode="modal" visible="true" 
+                onClose="self.visible = false;event.stopPropagation();" >
             <toolbar>
                 <toolbarbutton  label="Alterar"  onClick="@command('alteraCliente')" />
                 
@@ -21,15 +22,17 @@
                 </columns>   
                 <rows>
                     <row>Nome:
-                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.nomeUsuario)" disabled="@bind(vm.status eq 'view')" />
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.selected.nomeUsuario)" 
+                                 disabled="@bind(vm.status eq 'view')" />
                     </row>
                     <row>Nacionalidade:
                         <textbox  width="95%" value="@bind(vm.selected.nacionalidade)" disabled="@bind(vm.status eq 'view')" />
                     </row>
-                    <row>Estado Civil:
+                    <row>Estado Civil: 
                         <combobox width="95%"
                                   mold="rounded" 
                                   readonly="true"
+                                  constraint="no empty"
                                   selectedItem="@bind(vm.selected.estCivil)" 
                                   disabled="@bind(vm.status eq 'view')"
                         >
@@ -63,8 +66,14 @@
                         <row>Usuário:
                             <textbox width="100%" constraint="no empty" value="@bind(vm.selected.user)" disabled="@bind(vm.status eq 'view')" />
                         </row>
-                        <row>Senha:
-                            <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="@bind(vm.status eq 'view')" />
+                        <row>Senha atual:
+                            <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="true" />
+                        </row>
+                        <row>Nova Senha:
+                            <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.novaSenha)" disabled="@bind(vm.status eq 'view')" />
+                        </row>
+                        <row>Repetir Nova Senha:
+                            <textbox width="100%" type="password" constraint="no empty" value="@bind(vm.repNovaSenha)" disabled="@bind(vm.status eq 'view')" />
                         </row>
                 </rows>
             </grid>
