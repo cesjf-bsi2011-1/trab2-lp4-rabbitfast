@@ -40,6 +40,7 @@ public class EditarClienteVM {
     private StatusCrud status;
     private Cliente cli, cliente;
     private Cliente id;
+    private String novaSenha, repNovaSenha;
 
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
@@ -85,7 +86,14 @@ public class EditarClienteVM {
     @Command
     public void alteraCliente() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-
+        if(!novaSenha.equals("")){
+           if(novaSenha.equals(repNovaSenha)){
+               selected.setSenha(novaSenha);
+           }else{
+               Messagebox.show("Senhas não conferem!");
+               return;
+           }
+        }
         try {
             new ClienteJpaController(emf).edit(selected);
         } catch (NonexistentEntityException ex) {
@@ -93,6 +101,7 @@ public class EditarClienteVM {
         }
         Messagebox.show("Cliente Editado com sucesso!");
         frmEditaCliente.setVisible(false);
+        
     }
 
     @NotifyChange({"listaCliente", "selected", "status"})//para atualizar assim que gravar no banco de dados.
@@ -164,4 +173,21 @@ public class EditarClienteVM {
         this.id = id;
     }
 
+    public String getNovaSenha() {
+        return novaSenha;
+    }
+
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
+    }
+
+    public String getRepNovaSenha() {
+        return repNovaSenha;
+    }
+
+    public void setRepNovaSenha(String repNovaSenha) {
+        this.repNovaSenha = repNovaSenha;
+    }
+
+    
 }
