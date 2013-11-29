@@ -54,7 +54,7 @@ public class Cliente implements Serializable {
     @Column(name = "nacionalidade")
     private String nacionalidade;
     @Column(name = "est_civil")
-    private Character estCivil;
+    private String estCivil;
     @Column(name = "idade")
     private Integer idade;
     @Column(name = "logradouro")
@@ -116,11 +116,11 @@ public class Cliente implements Serializable {
         this.nacionalidade = nacionalidade;
     }
 
-    public Character getEstCivil() {
+    public String getEstCivil() {
         return estCivil;
     }
 
-    public void setEstCivil(Character estCivil) {
+    public void setEstCivil(String estCivil) {
         this.estCivil = estCivil;
     }
 
