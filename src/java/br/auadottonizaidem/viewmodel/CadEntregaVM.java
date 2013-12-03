@@ -14,6 +14,7 @@ import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.dao.StatusJpaController;
 import br.auadottonizaidem.dao.exceptions.IllegalOrphanException;
 import br.auadottonizaidem.dao.exceptions.NonexistentEntityException;
+import br.auadottonizaidem.dao.exceptions.PreexistingEntityException;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
 import br.auadottonizaidem.entity.Entrega;
@@ -135,47 +136,27 @@ public class CadEntregaVM {
 
         cliente.setIdCliente(1);
         if (status == StatusCrud.insert) {
+
+            selected.setLocOrigem(origem);
+            selected.setLocDestino(destino);
             try {
-                selected.setLocOrigem(origem);
-                selected.setLocDestino(destino);
                 new RotaJpaController(emf).create(selected);
-                entrega.setIdRota(selected);
-                entrega.setIdCliente(cliente);
-                if (verificaVeiculo()) {
-                    entrega.setValor(valor);
-                    entrega.setPlacaVeiculo(veiculo);
-                    veiculo.setEstado("E");
-
-                    new VeiculoJpaController(emf).edit(veiculo);
-                    new EntregaJpaController(emf).create(entrega);
-                    registrarStatus(selected, entrega);
-                    Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
-                } else {
-                    Messagebox.show("Nenhum Veículo disponivel no momento");
-                }
-
+            } catch (PreexistingEntityException ex) {
+                Logger.getLogger(CadEntregaVM.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
-                Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CadEntregaVM.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (status == StatusCrud.edit) {
-            try {
-                new EntregaJpaController(emf).edit(entrega);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            entrega.setIdRota(selected);
+            entrega.setIdCliente(cliente);            
+            entrega.setValor(calculaValorEntrega());
+            entrega.setPlacaVeiculo(veiculo);
+            new EntregaJpaController(emf).create(entrega);
+           //registrarStatus(selected, entrega);
+            Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
+        } else {
+            Messagebox.show("Ops! Algo deu errado!");
         }
         fmrCadEntregas.setVisible(false);
-
-    }
-
-    private boolean verificaVeiculo() {
-        if (calculaValorEntrega() != 0) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private void registrarStatus(Rota rota, Entrega entrega) {
@@ -186,13 +167,18 @@ public class CadEntregaVM {
         statusEntrega.setDataHoraPassagemPonto(date);
         try {
             new StatusJpaController(emf).create(statusEntrega);
+
+
+
+
         } catch (Exception ex) {
-            Logger.getLogger(CadEntregaVM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CadEntregaVM.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Command
-    public double calculaValorEntrega() {        
+    public double calculaValorEntrega() {
         double peso = entrega.getPeso();
         valor = 0;
 
@@ -214,6 +200,10 @@ public class CadEntregaVM {
                 new RotaJpaController(emf).destroy(selected.getIdRota());
 
 
+
+
+
+
             } catch (IllegalOrphanException ex) {
                 Logger.getLogger(CadRotaVM.class
                         .getName()).log(Level.SEVERE, null, ex);
@@ -223,6 +213,10 @@ public class CadEntregaVM {
             selected = new Rota();
             origem = new Localidade();
             listaRotas = new RotaJpaController(emf).findRotaEntities();
+
+
+
+
 
 
         } catch (NonexistentEntityException ex) {

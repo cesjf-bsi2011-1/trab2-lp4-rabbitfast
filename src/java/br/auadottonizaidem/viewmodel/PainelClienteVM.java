@@ -5,8 +5,13 @@
  */
 package br.auadottonizaidem.viewmodel;
 
+import br.auadottonizaidem.entity.Cliente;
+import br.auadottonizaidem.entity.Entrega;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -29,6 +34,18 @@ public class PainelClienteVM {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+        Query query;
+        EntityManager entityManager;
+
+
+        Autenticacao a = new Autenticacao();
+        Cliente cliente = a.getUserSession();
+        entityManager = emf.createEntityManager();
+        query = entityManager.createNamedQuery("Entrega.findAllToCliente");
+        query.setParameter("idCliente", cliente);
+        
+        List<Entrega> listEntregasCliente = query.getResultList();
+
 
     }
 }
