@@ -39,6 +39,62 @@
             </template> 
         </listbox>  
         
+        <window title="Cadastro de Rota Percurso" id="telaStatus_" visible="false" 
+                onClose="self.visible = false;event.stopPropagation();" closable="true"
+                position="center, center" width="650px">
+            <listbox mold="paging" 
+                     pageSize="6" 
+                     rows="6" 
+                     selectedItem="@bind(vm.entrega)"
+                     onSelect="@command('invoqTelaStatus')"
+                     emptyMessage="Não há entregas registradas no momento">
+            
+                <!--QUANTIDADES DE COLUNAS DA LISTA-->
+                <listhead>
+                    <listheader label="ID" width="100px" />
+                    <listheader label="Descrição" width="200px"/>
+                    <listheader label="Status" width="200px"/>
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell label="@bind(vm.entrega.idEntrega)" />
+                        <listcell label="@bind(vm.entrega.descricao)" />
+                        <listcell label="@bind(vm.entrega.descricao)" />
+                    </listitem>
+                </template> 
+            </listbox>  
+        </window>      
+        
+          
+        <window title="Status de Entrega" closable="true" id="telaStatus"
+                position="center, center" width="450px" mode="modal" visible="false" 
+                onClose="self.visible = false;event.stopPropagation();" >
+            
+            <listbox 
+                model="@bind(vm.listEntregaStatus)"
+                mold="paging" 
+                pageSize="6" 
+                rows="6" 
+                selectedItem="@bind(vm.entrega)"
+                onSelect="@command('invoqTelaStatus')"
+                emptyMessage="Não há entregas registradas no momento">
+            
+                <!--QUANTIDADES DE COLUNAS DA LISTA-->
+                <listhead>
+                    <listheader label="ID" width="100px" />
+                    <listheader label="Descrição" width="200px"/>
+                    <listheader label="Status" width="200px"/>
+                </listhead>
+                <template name="model">
+                    <listitem>
+                        <listcell label="@bind(each.idEntrega)" />
+                        <listcell label="@bind(each.descricao)" />
+                        <listcell label="@bind(each.descricao)" />
+                    </listitem>
+                </template> 
+            </listbox> 
+            
+        </window>
         
         
     </div>
