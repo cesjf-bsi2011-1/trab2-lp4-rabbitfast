@@ -192,59 +192,18 @@ public class CadEntregaVM {
     }
 
     @Command
-    public double calculaValorEntrega() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        entity = emf.createEntityManager();
+    public double calculaValorEntrega() {        
         double peso = entrega.getPeso();
         valor = 0;
 
-        query = entity.createNamedQuery("Veiculo.findEstadoParado");
-        List<Veiculo> listParado = query.getResultList(); //lista de veiculos parados caso P(parado) e E(entregando)
-
         if (peso <= 50) { //Verifica se existe tipo de veiculo moto parado
-            int tipo;
-
-            for (int i = 0; i < listParado.size(); i++) {
-                tipo = listParado.get(i).getTipoVeiculo();
-                if (tipo == 1) {
-                    veiculo = listParado.get(i);
-                    valor = empresa.getPrecoMoto();
-                } else {
-                    valor = 0;
-                }
-            }
-
-            return valor;
-
+            valor = empresa.getPrecoMoto();
         } else if (peso > 50 && peso <= 450) { //Verifica se existe tipo de veiculo carro parado
-            int tipo;
-
-            for (int i = 0; i < listParado.size(); i++) {
-                tipo = listParado.get(i).getTipoVeiculo();
-                if (tipo == 2) {
-                    veiculo = listParado.get(i);
-                    valor = empresa.getPrecoCarro();
-                } else {
-                    valor = 0;
-                }
-            }
-
-            return valor;
+            valor = empresa.getPrecoCarro();
         } else { //Verifica se existe tipo de veiculo caminhão parado
-            int tipo;
-
-            for (int i = 0; i < listParado.size(); i++) {
-                tipo = listParado.get(i).getTipoVeiculo();
-                if (tipo == 3) {
-                    veiculo = listParado.get(i);
-                    valor = empresa.getPrecoCaminhao();
-                } else {
-                    valor = 0;
-                }
-            }
-
-            return valor;
+            valor = empresa.getPrecoCaminhao();
         }
+        return valor;
     }
 
     @Command
@@ -253,16 +212,22 @@ public class CadEntregaVM {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
             try {
                 new RotaJpaController(emf).destroy(selected.getIdRota());
+
+
             } catch (IllegalOrphanException ex) {
-                Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CadRotaVM.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
             fmrCadEntregas.setVisible(false);
             status = StatusCrud.view;
             selected = new Rota();
             origem = new Localidade();
             listaRotas = new RotaJpaController(emf).findRotaEntities();
+
+
         } catch (NonexistentEntityException ex) {
-            Logger.getLogger(CadRotaVM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CadRotaVM.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
