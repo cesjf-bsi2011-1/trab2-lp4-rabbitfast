@@ -34,7 +34,6 @@
                     <menubar id="menuHorizontal" autodrop="true">
                         <menuitem label="Principal" onClick="@command('painelCliente')" />
                         <menuitem label="Solicitar Entrega" onClick="@command('cadEntrega')" />
-                        <menuitem label="Verificar Status" onClick="@command('visualizaStatus')" />
                         <menuitem label="Editar Dados Pessoais" onClick="@command('editarCliente')" />
                         <menuitem label="Sair" onClick="alert(self.label)" />
                     </menubar>

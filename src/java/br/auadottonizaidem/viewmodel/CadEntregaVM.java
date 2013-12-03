@@ -147,16 +147,18 @@ public class CadEntregaVM {
                 Logger.getLogger(CadEntregaVM.class.getName()).log(Level.SEVERE, null, ex);
             }
             entrega.setIdRota(selected);
-            entrega.setIdCliente(cliente);            
+            entrega.setIdCliente(cliente);
             entrega.setValor(calculaValorEntrega());
             entrega.setPlacaVeiculo(veiculo);
             new EntregaJpaController(emf).create(entrega);
-           //registrarStatus(selected, entrega);
+            //registrarStatus(selected, entrega);
             Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
+            fmrCadEntregas.setVisible(false);
+            Executions.sendRedirect("painelCliente.zul");
         } else {
             Messagebox.show("Ops! Algo deu errado!");
         }
-        fmrCadEntregas.setVisible(false);
+
     }
 
     private void registrarStatus(Rota rota, Entrega entrega) {

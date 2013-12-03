@@ -7,7 +7,6 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadEntregaVM')" >
-        <label>CADASTRO DE ENTREGAS</label>
         
         <window title="Solicitar Entrega" closable="true" id="fmrCadEntregas"
                 position="center, center" width="500px" mode="modal" >

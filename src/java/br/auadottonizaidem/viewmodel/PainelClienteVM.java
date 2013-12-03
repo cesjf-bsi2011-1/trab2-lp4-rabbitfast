@@ -26,9 +26,9 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
  */
 public class PainelClienteVM {
 
-    @WireVariable
-    Session sessao;
-
+    private Cliente cliente;
+    private List<Entrega> listEntregasCliente;
+    private Entrega entrega;
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
@@ -39,13 +39,41 @@ public class PainelClienteVM {
 
 
         Autenticacao a = new Autenticacao();
-        Cliente cliente = a.getUserSession();
+        cliente = a.getUserSession();
         entityManager = emf.createEntityManager();
         query = entityManager.createNamedQuery("Entrega.findAllToCliente");
         query.setParameter("idCliente", cliente);
         
-        List<Entrega> listEntregasCliente = query.getResultList();
+        listEntregasCliente = query.getResultList();
 
 
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Entrega> getListEntregasCliente() {
+        return listEntregasCliente;
+    }
+
+    public void setListEntregasCliente(List<Entrega> listEntregasCliente) {
+        this.listEntregasCliente = listEntregasCliente;
+    }
+
+    public Entrega getEntrega() {
+        return entrega;
+    }
+
+    public void setEntrega(Entrega entrega) {
+        this.entrega = entrega;
+    }
+    
+    
+    
+    
 }
