@@ -7,8 +7,38 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.PainelEmpresaVM')" >
+        <h:h2>Entregas | Selecione para ver Status</h:h2>
         
-        <label>PAINEL DE EMPRESA</label>
+        <listbox model="@bind(vm.listaEntregas)" 
+                 mold="paging" 
+                 pageSize="6" 
+                 rows="6" 
+                 selectedItem="@bind(vm.entrega)"
+                 onSelect="@command('invoqTelaStatus')"
+                 emptyMessage="Não há entregas registradas no momento">
+            
+            <!--QUANTIDADES DE COLUNAS DA LISTA-->
+            <listhead>
+                <listheader label="ID" width="40px" />
+                <listheader label="Cliente" width="200px"/>
+                <listheader label="Origem" width="200px"/>
+                <listheader label="Destino" width="200px"/>
+                <listheader label="Status" width="200px"/>
+                <listheader label="Passagem" width="200px"/>
+                <listheader label="Realiza" width="50px"/>
+            </listhead>
+            <template name="model">
+                <listitem>
+                    <listcell label="@bind(each.idEntrega)" />
+                    <listcell label="@bind(each.idCliente.nomeUsuario)" />
+                    <listcell label="@bind(each.idRota.locOrigem.regiao)" />
+                    <listcell label="@bind(each.idRota.locDestino.regiao)" />                    
+                    <listcell label="@bind(each.statusList.size() eq 0 ? 'Aguardando Entrega' : each.statusList[each.statusList.size()-1].rotaPercurso.pontoReferencia.descrPonto)" />
+                    <listcell label="@bind(each.statusList.size() eq 0 ? ' - ' : vm.formatDate(each.statusList[each.statusList.size()-1].dataHoraPassagemPonto))" />
+                    <listcell><button label ="V" onClick="@command('atualizaStatus')" ></button></listcell>
+                </listitem>
+            </template> 
+        </listbox>   
     </div>
     
     
