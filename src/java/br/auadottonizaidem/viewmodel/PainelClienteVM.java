@@ -5,8 +5,10 @@
  */
 package br.auadottonizaidem.viewmodel;
 
+import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Entrega;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,19 +34,19 @@ public class PainelClienteVM {
 
     private Cliente cliente;
     private List<Entrega> listEntregasCliente;
-    private List<Entrega> listEntregaStatus;
+    private List<Entrega> listEntregaStatus = new ArrayList<Entrega>();
     private Entrega entrega;
+    Query query;
+    EntityManager entityManager;
     @Wire
     private Window telaStatus;
-    
-    
+
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);//sempre colocar pra pegar uma window interna
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        Query query;
-        EntityManager entityManager;
+
         entrega = new Entrega();
 
 
@@ -53,19 +55,20 @@ public class PainelClienteVM {
         entityManager = emf.createEntityManager();
         query = entityManager.createNamedQuery("Entrega.findAllToCliente");
         query.setParameter("idCliente", cliente);
-        
+
         listEntregasCliente = query.getResultList();
 
     }
-    
+
     @NotifyChange({"listEntregasCliente"})//para atualizar assim que gravar no banco de dados.
     @Command
     public void invoqTelaStatus() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
+        
         listEntregaStatus.add(entrega);
+        
         telaStatus.doModal();
     }
-    
 
     public Cliente getCliente() {
         return cliente;
@@ -106,10 +109,4 @@ public class PainelClienteVM {
     public void setTelaStatus(Window telaStatus) {
         this.telaStatus = telaStatus;
     }
-    
-    
-    
-    
-    
-    
 }
