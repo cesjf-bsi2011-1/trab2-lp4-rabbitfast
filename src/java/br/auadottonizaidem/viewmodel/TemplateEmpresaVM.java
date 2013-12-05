@@ -30,29 +30,21 @@ import org.zkoss.zul.Window;
  */
 public class TemplateEmpresaVM {
 
+    private Empresa emp;
     //   para pegar uma div interna, filha, está pegando
     @Wire
     private Center center;
     private Window winLogin;
     private String login, senha;
-
     @WireVariable
     Session sessao;
-    private Cliente user;
-    private Empresa empresa;
-
-    public Cliente getUser() {
-        return user;
-    }
-
-    public void setUser(Cliente user) {
-        this.user = user;
-    }
 
     // assim que a pagina carregar ela executa esse metodo
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
+        Autenticacao a = new Autenticacao();
+        emp = a.getEmpresaSession();
     }
 
     @Command
@@ -65,29 +57,43 @@ public class TemplateEmpresaVM {
     }
 
     @Command
+    public void Logout() {
+
+        Autenticacao a = new Autenticacao("E");
+        Executions.sendRedirect("index.zul");
+
+    }
+
+    @Command
     public void cadRota() {
         Executions.sendRedirect("cadRota.zul");
     }
+
     @Command
     public void cadLocalidade() {
         Executions.sendRedirect("cadLocalidade.zul");
     }
+
     @Command
     public void cadPontoReferencia() {
         Executions.sendRedirect("cadPontoReferencia.zul");
     }
+
     @Command
     public void cadRotaPercurso() {
         Executions.sendRedirect("cadRotaPercurso.zul");
     }
+
     @Command
     public void cadStatus() {
         Executions.sendRedirect("cadStatus.zul");
     }
+
     @Command
     public void cadVeiculo() {
         Executions.sendRedirect("cadVeiculo.zul");
     }
+
     @Command
     public void painelEmpresa() {
         Executions.sendRedirect("painelEmpresa.zul");
@@ -109,4 +115,11 @@ public class TemplateEmpresaVM {
         this.senha = senha;
     }
 
+    public Empresa getEmp() {
+        return emp;
+    }
+
+    public void setEmp(Empresa emp) {
+        this.emp = emp;
+    }
 }

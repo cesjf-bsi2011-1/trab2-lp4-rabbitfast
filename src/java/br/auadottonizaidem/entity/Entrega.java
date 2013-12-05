@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Entrega.findByIdEntrega", query = "SELECT e FROM Entrega e WHERE e.idEntrega = :idEntrega"),
     @NamedQuery(name = "Entrega.findByDescricao", query = "SELECT e FROM Entrega e WHERE e.descricao = :descricao"),
     @NamedQuery(name = "Entrega.findByValor", query = "SELECT e FROM Entrega e WHERE e.valor = :valor"),
-    @NamedQuery(name = "Entrega.findByProximoSequencia", query = "SELECT e.idRota.rotaPercursoList FROM Entrega e "
-        + "WHERE e.idRota.rotaPercursoList  NOT IN (e.statusList[1].rotaPercurso) AND e.idEntrega = :idEntrega"),
+    //@NamedQuery(name = "Entrega.findByProximoSequencia", query = "SELECT e.idRota.rotaPercursoList FROM Entrega e "
+       // + "WHERE e.idRota.rotaPercursoList  NOT IN (e.statusList[1].rotaPercurso) AND e.idEntrega = :idEntrega"),
     @NamedQuery(name = "Entrega.findByPeso", query = "SELECT e FROM Entrega e WHERE e.peso = :peso")})
 public class Entrega implements Serializable {
     private static final long serialVersionUID = 1L;

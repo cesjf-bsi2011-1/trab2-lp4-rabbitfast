@@ -52,6 +52,8 @@ public class TemplateClienteVM {
     @AfterCompose
     public void init(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
+        Autenticacao a = new Autenticacao();
+        user = a.getUserSession();
     }
 
     @Command
@@ -60,6 +62,15 @@ public class TemplateClienteVM {
         winLogin = (Window) center.getFirstChild().getChildren().get(1);
         winLogin.setVisible(true);
         //       Messagebox.show("olá"+ center.getId());
+
+    }
+    
+        @Command
+    public void Logout() {
+
+        Autenticacao a = new Autenticacao("C");
+        
+        Executions.sendRedirect("index.zul");
 
     }
 

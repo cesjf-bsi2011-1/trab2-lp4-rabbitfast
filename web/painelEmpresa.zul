@@ -9,15 +9,13 @@
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.PainelEmpresaVM')" >
         <h:h2>Entregas | Selecione para ver Status</h:h2>
         
-        <listbox model="@bind(vm.listaEntregas)" 
+        <!--<listbox model="@bind(vm.listaEntregas)" 
                  mold="paging" 
                  pageSize="6" 
                  rows="6" 
                  selectedItem="@bind(vm.entrega)"
                  onSelect="@command('invoqTelaStatus')"
                  emptyMessage="Não há entregas registradas no momento">
-            
-            <!--QUANTIDADES DE COLUNAS DA LISTA-->
             <listhead>
                 <listheader label="ID" width="40px" />
                 <listheader label="Cliente" width="200px"/>
@@ -39,7 +37,7 @@
                 </listitem>
             </template> 
             
-        </listbox>   
+        </listbox>  --> 
     </div>
     
     

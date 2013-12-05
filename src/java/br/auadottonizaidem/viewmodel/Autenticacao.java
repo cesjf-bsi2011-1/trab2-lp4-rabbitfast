@@ -8,6 +8,7 @@ import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
 import javax.servlet.http.HttpSession;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.util.SessionCleanup;
 
 /**
  *
@@ -19,6 +20,15 @@ public class Autenticacao {
 
     public Autenticacao() {
         this.sessao = (HttpSession) Sessions.getCurrent().getNativeSession();
+    }
+
+    public Autenticacao(String desliga) {
+        if (desliga.equals("C")) {
+            this.sessao = (HttpSession) Sessions.getCurrent().removeAttribute("cliente");
+        }
+        else if (desliga.equals("E")) {
+            this.sessao = (HttpSession) Sessions.getCurrent().removeAttribute("empresa");
+        }
     }
 
     public Autenticacao(Cliente c) {
