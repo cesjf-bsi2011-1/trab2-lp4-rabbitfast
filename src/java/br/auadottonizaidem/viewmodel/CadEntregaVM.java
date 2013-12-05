@@ -172,10 +172,6 @@ public class CadEntregaVM {
         statusEntrega.setDataHoraPassagemPonto(date);
         try {
             new StatusJpaController(emf).create(statusEntrega);
-
-
-
-
         } catch (Exception ex) {
             Logger.getLogger(CadEntregaVM.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -203,12 +199,6 @@ public class CadEntregaVM {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
             try {
                 new RotaJpaController(emf).destroy(selected.getIdRota());
-
-
-
-
-
-
             } catch (IllegalOrphanException ex) {
                 Logger.getLogger(CadRotaVM.class
                         .getName()).log(Level.SEVERE, null, ex);
