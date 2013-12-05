@@ -42,11 +42,12 @@
                         <textbox width="95%" constraint="no empty" value="@bind(vm.entrega.descricao)"  />
                     </row>
                     <row>Total:
+                        <textbox width="95%" constraint="no empty" value="@bind(vm.valor)"  />
                     </row>
                 </rows>
             </grid>    
             <toolbar>
-                <toolbarbutton  label="Calcular valor da entrega" onClick="@command('calculaValorEntrega')"/>
+                <toolbarbutton  label="Calcular valor da entrega" onClick="@command('calculaValorEntregaMsg')"/>
                 <toolbarbutton  label="Registrar Entrega" onClick="@command('gravaEntrega')" />
                 
             </toolbar>

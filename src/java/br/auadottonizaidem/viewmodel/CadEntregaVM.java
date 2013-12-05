@@ -26,6 +26,7 @@ import br.auadottonizaidem.entity.Status;
 import br.auadottonizaidem.entity.StatusPK;
 import br.auadottonizaidem.entity.Veiculo;
 import br.auadottonizaidem.viewmodelutil.StatusCrud;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -63,7 +64,7 @@ public class CadEntregaVM {
     private Cliente cliente = null;
     private Entrega entrega;
     private Veiculo veiculo;
-    private double valor;
+    private double valor =0 ;
     private Localidade origem;
     private Localidade destino;
     private Query query;
@@ -177,9 +178,9 @@ public class CadEntregaVM {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    @NotifyChange({"valor"})
     @Command
-    public double calculaValorEntrega() {
+    public double calculaValorEntrega() {        
         double peso = entrega.getPeso();
         valor = 0;
 
@@ -191,6 +192,21 @@ public class CadEntregaVM {
             valor = empresa.getPrecoCaminhao();
         }
         return valor;
+    }
+    
+    @NotifyChange({"valor"})
+    @Command
+    public void calculaValorEntregaMsg() {        
+        double peso = entrega.getPeso();
+        valor = 0;
+
+        if (peso <= 50) { //Verifica se existe tipo de veiculo moto parado
+            valor = empresa.getPrecoMoto();
+        } else if (peso > 50 && peso <= 450) { //Verifica se existe tipo de veiculo carro parado
+            valor = empresa.getPrecoCarro();
+        } else { //Verifica se existe tipo de veiculo caminhão parado
+            valor = empresa.getPrecoCaminhao();
+        }
     }
 
     @Command
@@ -316,4 +332,15 @@ public class CadEntregaVM {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+    
+    
+    
 }
