@@ -46,7 +46,7 @@
                 mold="paging" 
                 pageSize="6" 
                 rows="6" 
-                selectedItem="@bind(vm.entrega)"
+                selectedItem="@bind(vm.listEntregaStatus)"
                 onSelect="@command('invoqTelaStatus')"
                 emptyMessage="Não há entregas registradas no momento">
             
@@ -58,9 +58,9 @@
                 </listhead>
                 <template name="model">
                     <listitem>
-                        <listcell label="@bind(each.idEntrega)" />
-                        <listcell label="@bind(each.descricao)" />
-                        <listcell label="@bind(each.descricao)" />
+                        <listcell label="@bind(each.entrega.desccricao)" />
+                        <listcell label="@bind(each.rotaPercurso.pontoReferencia)" />
+                        <listcell label="@bind(each.dataHoraPassagemPonto)" />
                     </listitem>
                 </template> 
             </listbox>  

@@ -8,6 +8,7 @@ package br.auadottonizaidem.viewmodel;
 import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Entrega;
+import br.auadottonizaidem.entity.Status;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -34,8 +35,9 @@ public class PainelClienteVM {
 
     private Cliente cliente;
     private List<Entrega> listEntregasCliente;
-    private List<Entrega> listEntregaStatus = new ArrayList<Entrega>();
+    private List<Status> listEntregaStatus;
     private Entrega entrega;
+    private Status status;
     Query query;
     EntityManager entityManager;
     @Wire
@@ -48,7 +50,8 @@ public class PainelClienteVM {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
         entrega = new Entrega();
-
+        
+        status = new Status();
 
         Autenticacao a = new Autenticacao();
         cliente = a.getUserSession();
@@ -64,11 +67,22 @@ public class PainelClienteVM {
     @Command
     public void invoqTelaStatus() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        
-        listEntregaStatus.add(entrega);
-        
+        listEntregaStatus = entrega.getStatusList();
         telaStatus.doModal();
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    
+    
+    
+    
 
     public Cliente getCliente() {
         return cliente;
@@ -94,13 +108,14 @@ public class PainelClienteVM {
         this.entrega = entrega;
     }
 
-    public List<Entrega> getListEntregaStatus() {
+    public List<Status> getListEntregaStatus() {
         return listEntregaStatus;
     }
 
-    public void setListEntregaStatus(List<Entrega> listEntregaStatus) {
+    public void setListEntregaStatus(List<Status> listEntregaStatus) {
         this.listEntregaStatus = listEntregaStatus;
     }
+
 
     public Window getTelaStatus() {
         return telaStatus;

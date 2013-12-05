@@ -151,7 +151,10 @@ public class CadEntregaVM {
             entrega.setValor(calculaValorEntrega());
             entrega.setPlacaVeiculo(veiculo);
             new EntregaJpaController(emf).create(entrega);
-            //registrarStatus(selected, entrega);
+            
+            
+            
+            registrarStatus(selected, entrega);
             Messagebox.show("Entrega Registrada com Sucesso, Acompanhe o Status de Entrega.");
             fmrCadEntregas.setVisible(false);
             Executions.sendRedirect("painelCliente.zul");
