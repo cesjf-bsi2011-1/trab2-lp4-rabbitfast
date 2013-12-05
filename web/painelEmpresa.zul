@@ -38,6 +38,7 @@
                     <listcell><button label ="V" onClick="@command('atualizaStatus')" ></button></listcell>
                 </listitem>
             </template> 
+            
         </listbox>   
     </div>
     
