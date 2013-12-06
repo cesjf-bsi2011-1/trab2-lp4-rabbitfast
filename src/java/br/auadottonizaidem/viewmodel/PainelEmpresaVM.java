@@ -9,6 +9,7 @@ import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Entrega;
 import br.auadottonizaidem.entity.RotaPercurso;
+import br.auadottonizaidem.entity.Status;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -59,11 +60,21 @@ public class PainelEmpresaVM {
     @Command
     public void atualizaStatus() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
-        entityManager = emf.createEntityManager();
-        query = entityManager.createNamedQuery("Entrega.findByProximoSequencia");
-        query.setParameter("idEntrega", 1);
 
-        List<RotaPercurso> listRotaPercurso = query.getResultList();
+        Status ultimoStatus = (Status) entityManager.createNamedQuery("Status.findUltimoStatus")
+                .setParameter("idEntrega", entrega.getIdEntrega()).getSingleResult();
+        
+        int proximaSequencia = ultimoStatus.getRotaPercurso().getSequencia() + 1;
+        
+        RotaPercurso proximaRotaPercurso = (RotaPercurso) 
+                entityManager.createNamedQuery("RotaPercurso.findByIdRotaESequencia")
+                .setParameter("idRota", ultimoStatus.getStatusPK().getIdRota())
+                .setParameter("sequencia", proximaSequencia).getSingleResult();
+        
+        if(proximaRotaPercurso == null) {
+            //Concluiu a entrega
+        }
+        
     }
 
     public Entrega getEntrega() {

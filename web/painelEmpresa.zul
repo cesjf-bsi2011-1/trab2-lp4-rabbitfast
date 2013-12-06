@@ -9,12 +9,12 @@
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.PainelEmpresaVM')" >
         <h:h2>Entregas | Selecione para ver Status</h:h2>
         
-        <!--<listbox model="@bind(vm.listaEntregas)" 
+        <listbox model="@bind(vm.listaEntregas)" 
                  mold="paging" 
                  pageSize="6" 
                  rows="6" 
                  selectedItem="@bind(vm.entrega)"
-                 onSelect="@command('invoqTelaStatus')"
+                 onSelect="@command('atualizaStatus')"
                  emptyMessage="Não há entregas registradas no momento">
             <listhead>
                 <listheader label="ID" width="40px" />
@@ -33,11 +33,13 @@
                     <listcell label="@bind(each.idRota.locDestino.regiao)" />                    
                     <listcell label="@bind(each.statusList.size() eq 0 ? 'Aguardando Entrega' : each.statusList[each.statusList.size()-1].rotaPercurso.pontoReferencia.descrPonto)" />
                     <listcell label="@bind(each.statusList.size() eq 0 ? ' - ' : vm.formatDate(each.statusList[each.statusList.size()-1].dataHoraPassagemPonto))" />
-                    <listcell><button label ="V" onClick="@command('atualizaStatus')" ></button></listcell>
+                    <listcell>
+                        <button label ="V" onClick="@command('atualizaStatus')" ></button>
+                    </listcell>
                 </listitem>
             </template> 
             
-        </listbox>  --> 
+        </listbox> 
     </div>
     
     

@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RotaPercurso.findByIdRota", query = "SELECT r FROM RotaPercurso r WHERE r.rotaPercursoPK.idRota = :idRota"),
     @NamedQuery(name = "RotaPercurso.findByIdPontoReferencia", query = "SELECT r FROM RotaPercurso r WHERE r.rotaPercursoPK.idPontoReferencia = :idPontoReferencia"),
     @NamedQuery(name = "RotaPercurso.findBySequencia", query = "SELECT r FROM RotaPercurso r WHERE r.sequencia = :sequencia"),
-    @NamedQuery(name = "RotaPercurso.findByDistancia", query = "SELECT r FROM RotaPercurso r WHERE r.distancia = :distancia")})
+    @NamedQuery(name = "RotaPercurso.findByDistancia", query = "SELECT r FROM RotaPercurso r WHERE r.distancia = :distancia"),
+    @NamedQuery(name = "RotaPercurso.findByIdRotaESequencia", query = "SELECT r FROM RotaPercurso r WHERE r.rotaPercursoPK.idRota = :idRota AND r.sequencia = :sequencia")})
+    
 public class RotaPercurso implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

@@ -23,12 +23,8 @@ public class Autenticacao {
     }
 
     public Autenticacao(String desliga) {
-        if (desliga.equals("C")) {
-            this.sessao = (HttpSession) Sessions.getCurrent().removeAttribute("cliente");
-        }
-        else if (desliga.equals("E")) {
-            this.sessao = (HttpSession) Sessions.getCurrent().removeAttribute("empresa");
-        }
+        this.sessao = (HttpSession) Sessions.getCurrent().getNativeSession();
+        this.sessao.invalidate();
     }
 
     public Autenticacao(Cliente c) {
