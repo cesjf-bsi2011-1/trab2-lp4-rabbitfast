@@ -7,7 +7,6 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadRotaVM')" >
-        <label>CADASTRO DE ROTA</label>
         <window title="Cadastro de Rotas" closable="true" id="fmrCadRotas"
                 position="center, center" width="450px" mode="modal" >
             

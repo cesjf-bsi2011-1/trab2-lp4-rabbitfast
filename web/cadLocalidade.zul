@@ -7,7 +7,6 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadLocalidadeVM')" >
-        <label>CADASTRO DE Localidade</label>
         
          <!-- Cadastro de Localidade -->
         <window title="Cadastro de Localidade" closable="true" id="fmrCadLocalidade"

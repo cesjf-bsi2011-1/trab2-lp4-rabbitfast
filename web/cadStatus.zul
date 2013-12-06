@@ -7,7 +7,6 @@
     
     <div self="@{define(pag)}" apply="org.zkoss.bind.BindComposer"
          viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.CadStatusVM')" >
-        <label>CADASTRO DE STATUS</label>
     
     </div>
 </zk>
