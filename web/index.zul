@@ -7,9 +7,9 @@
     
     <div self="@{define(pag)}">
         <h:center>
-            <h:h3>Atendimento personalizado</h:h3>
-            <image src="images/rd1.png"></image>
-            <h:h4>Acesso rápido a todos os dados. Mostre que sua empresa possui agilidade no atendimento.</h:h4>
+            <h:h3>Controle seus pedidos</h:h3>
+            <image src="images/rd2.png"></image>
+            <h:h4>Controle cada etapa dos seus processos, desde o atendimento até a entrega do pedido.</h:h4>
 
             <h:h3>Entrega e Acompanhamento</h:h3>
             <image src="images/rd3.png"></image>
