@@ -10,7 +10,7 @@
         
         <!-- Cadastro de Cliente -->
         <window title="Cadastro de Cliente" closable="true" id="fmrCadCliente"
-                position="center, center" width="450px" mode="modal" visible="true" visible="false" onClose="self.visible = false;event.stopPropagation();" >
+                position="center, center" width="450px" mode="modal" visible="true" onClose="self.visible = false;event.stopPropagation();" >
             
             <grid>
                 <columns height="0px">

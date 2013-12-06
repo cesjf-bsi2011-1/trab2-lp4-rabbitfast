@@ -22,9 +22,9 @@
                 
                 <menuseparator />
                 <menuitem label="Logar" onClick="@command('Logar')" 
-                          visible ="@bind(vm.emp eq null)" />
+                          visible ="@bind(vm.emp eq null and vm.veiculo eq null)" />
                 <menuitem label="Logout" onClick="@command('Logout')" 
-                          visible ="@bind(vm.emp ne null)" />
+                          visible ="@bind(vm.emp ne null || vm.veiculo ne null)" />
             </menubar>
         </west>
         
@@ -42,7 +42,6 @@
                                 <menuitem label="Veiculo" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadVeiculo')" />
                             </menupopup>
                         </menu>
-                        <menuitem label="Verificar Status" disabled="@bind(vm.ativo eq 'veiculo')" onClick="alert(self.label)" />
                     </menubar>
 
                 

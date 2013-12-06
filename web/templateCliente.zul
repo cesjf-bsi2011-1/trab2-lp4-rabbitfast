@@ -35,7 +35,6 @@
                         <menuitem label="Principal" onClick="@command('painelCliente')" />
                         <menuitem label="Solicitar Entrega" onClick="@command('cadEntrega')" />
                         <menuitem label="Editar Dados Pessoais" onClick="@command('editarCliente')" />
-                        <menuitem label="Sair" onClick="alert(self.label)" />
                     </menubar>
 
                 

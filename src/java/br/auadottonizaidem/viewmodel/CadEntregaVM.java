@@ -135,7 +135,6 @@ public class CadEntregaVM {
     public void gravaEntrega() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
 
-        cliente.setIdCliente(1);
         if (status == StatusCrud.insert) {
 
             selected.setLocOrigem(origem);
