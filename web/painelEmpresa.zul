@@ -34,7 +34,7 @@
                     <listcell label="@bind(each.statusList.size() eq 0 ? 'Aguardando Entrega' : each.statusList[each.statusList.size()-1].rotaPercurso.pontoReferencia.descrPonto)" />
                     <listcell label="@bind(each.statusList.size() eq 0 ? ' - ' : vm.formatDate(each.statusList[each.statusList.size()-1].dataHoraPassagemPonto))" />
                     <listcell>
-                        <button label ="V" onClick="@command('atualizaStatus')" ></button>
+                        <button label ="V" onClick="@command('atualizaStatus')" disabled="@bind(vm.ativo eq 'veiculo')" ></button>
                     </listcell>
                 </listitem>
             </template> 

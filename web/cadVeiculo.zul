@@ -66,6 +66,9 @@
                             <comboitem value="Caminhao" label="Caminhao"  />
                         </combobox>
                     </row>
+                    <row>Senha:
+                        <textbox width="95%" type="password" constraint="no empty" value="@bind(vm.selected.senha)" disabled="@bind(vm.tipoVeiculo eq 'view')"  />
+                    </row>
                     
                 </rows>
             </grid>
@@ -95,7 +98,7 @@
                         <combobox width="95%"
                                   mold="rounded" readonly="true" constraint="no empty" selectedItem="@bind(vm.selectedPesq.tipoVeiculo)" disabled="@bind(vm.tipoVeiculo eq 'view')"  >
                             <comboitem value="Moto" label="Moto"  />
-                            <comboitem value="Carro" label="Carro"  />
+                            <comboitem value="Caro" label="Carro"  />
                             <comboitem value="Caminhao" label="Caminhao"  />
                         </combobox>
                     </row>

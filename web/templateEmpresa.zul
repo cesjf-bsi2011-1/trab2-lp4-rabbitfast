@@ -35,14 +35,14 @@
                         <menuitem label="Principal" onClick="@command('painelEmpresa')" />
                         <menu label="Cadastrar">
                             <menupopup>
-                                <menuitem label="Rota" onClick="@command('cadRota')" />
-                                <menuitem label="Localidade" onClick="@command('cadLocalidade')" />
-                                <menuitem label="Ponto Referência" onClick="@command('cadPontoReferencia')" />
-                                <menuitem label="Rota Percurso" onClick="@command('cadRotaPercurso')" />
-                                <menuitem label="Veiculo" onClick="@command('cadVeiculo')" />
+                                <menuitem label="Rota" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadRota')" />
+                                <menuitem label="Localidade" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadLocalidade')" />
+                                <menuitem label="Ponto Referência" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadPontoReferencia')" />
+                                <menuitem label="Rota Percurso" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadRotaPercurso')" />
+                                <menuitem label="Veiculo" disabled="@bind(vm.ativo eq 'veiculo')" onClick="@command('cadVeiculo')" />
                             </menupopup>
                         </menu>
-                        <menuitem label="Verificar Status" onClick="alert(self.label)" />
+                        <menuitem label="Verificar Status" disabled="@bind(vm.ativo eq 'veiculo')" onClick="alert(self.label)" />
                     </menubar>
 
                 
