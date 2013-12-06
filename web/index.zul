@@ -6,7 +6,25 @@
     xmlns:h="xhtml">
     
     <div self="@{define(pag)}">
-        <h:h3>Seja Bem Vindo ao Sistema de Entregas!</h:h3>
+        <h:center>
+            <h:h3>Atendimento personalizado</h:h3>
+            <image src="images/rd1.png"></image>
+            <h:h4>Acesso rápido a todos os dados. Mostre que sua empresa possui agilidade no atendimento.</h:h4>
+
+            <h:h3>Entrega e Acompanhamento</h:h3>
+            <image src="images/rd3.png"></image>
+            <h:h4>O acompanhamento do pedido pode ser feito pelo cliente diretamente em nosso site</h:h4>
+            
+            <h:h1>Sistema de Pedidos e Entregas</h:h1>
+            <image src="images/entrega.jpg"></image>
+        
+            <h:p>A melhor opção para empresas 
+                que precisam valorizar o seu atendimento</h:p>
+            <h:p>
+                através de um sistema completo que controle 
+                desde a solicitação do pedido até a entrega.</h:p>                
+            
+        </h:center>
     </div>
 
 </zk>

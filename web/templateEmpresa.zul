@@ -7,15 +7,15 @@
                   apply="org.zkoss.bind.BindComposer"
                   viewModel="@id('vm') @init('br.auadottonizaidem.viewmodel.TemplateEmpresaVM')"
     >
-        <north height="85px" style="background-color:green; border:none;">
+        <north height="85px" style="background-color:white; border:none;">
             <h:h1>
-                Painel de Empresas
+                SisEntregas - Painel de Empresas
             </h:h1>
         </north>
         
        
         <west collapsible="true" splittable="true" width="200px;" border="none">
-            <menubar orient="vertical">
+            <menubar orient="vertical" style="background-color:white;">
                 
                 <menuitem label="Home" href="index.zul" />
                                          
@@ -49,7 +49,7 @@
             </div>
         </center>
         
-        <south height="85px" style="background-color:black; border:none; color:#fff; text-align:center;">
+        <south height="85px" style="background-color:white; border:none; color:#fff; text-align:center;">
             Sistema de Entregas de Produtos
         </south>
         
