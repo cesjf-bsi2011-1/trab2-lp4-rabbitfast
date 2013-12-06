@@ -6,8 +6,10 @@ package br.auadottonizaidem.viewmodel;
 
 import br.auadottonizaidem.dao.ClienteJpaController;
 import br.auadottonizaidem.dao.EmpresaJpaController;
+import br.auadottonizaidem.dao.VeiculoJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
+import br.auadottonizaidem.entity.Veiculo;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +49,7 @@ public class TemplateVM {
     Session sessao;
     private Cliente user;
     private Empresa empresa;
+    private Veiculo veiculo;
 
     public Cliente getUser() {
         return user;
@@ -77,18 +80,20 @@ public class TemplateVM {
 
         user = new ClienteJpaController(emf).findUserByLoginAndSenha(login, senha);
         empresa = new EmpresaJpaController(emf).findEmpresaByLoginAndSenha(login, senha);
+        veiculo = new VeiculoJpaController(emf).findVeiculoByLoginAndSenha(login, senha);
 
-        if (user == null && empresa == null) {
+        if (user == null && empresa == null && veiculo == null) {
             Messagebox.show("Login ou senha incorreta");
         } else if (empresa != null) {
             winLogin.setVisible(false);
             new Autenticacao(empresa);           
             painelEmpresa();
+        } else if (veiculo != null){
+            winLogin.setVisible(false);
+            new Autenticacao(veiculo);
+            painelEmpresa();
         } else {
             winLogin.setVisible(false);
-//            session = (HttpSession) Sessions.getCurrent().getNativeSession();
-//            Sessions.getCurrent().setAttribute("user", user);
-//            session.setAttribute("user", user);
             new Autenticacao(user);
             painelCliente();
         }

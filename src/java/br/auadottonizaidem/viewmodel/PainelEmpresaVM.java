@@ -7,9 +7,12 @@ package br.auadottonizaidem.viewmodel;
 
 import br.auadottonizaidem.dao.EntregaJpaController;
 import br.auadottonizaidem.entity.Cliente;
+import br.auadottonizaidem.entity.Empresa;
 import br.auadottonizaidem.entity.Entrega;
 import br.auadottonizaidem.entity.RotaPercurso;
 import br.auadottonizaidem.entity.Status;
+import br.auadottonizaidem.entity.Veiculo;
+import br.auadottonizaidem.viewmodelutil.StatusCrud;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,9 +37,12 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 public class PainelEmpresaVM {
 
     Query query;
+    Veiculo veiculo;
     EntityManager entityManager;
     private Entrega entrega;
+    Empresa empresa;
     private List<Entrega> listaEntregas;
+    private StatusCrud ativo;
     @WireVariable
     Session sessao;
 
@@ -46,6 +52,14 @@ public class PainelEmpresaVM {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trab2-lp4-rabbitfastPU");
         entrega = new Entrega();
+        Autenticacao a = new Autenticacao();
+        veiculo = a.getVeiculoSession();
+        empresa = a.getEmpresaSession();
+        if (empresa != null) {
+            ativo = StatusCrud.empresa;
+        }else if(veiculo != null){
+            ativo = StatusCrud.veiculo;
+        }
         listaEntregas = new EntregaJpaController(emf).findEntregaEntities();
 
     }
@@ -63,18 +77,17 @@ public class PainelEmpresaVM {
 
         Status ultimoStatus = (Status) entityManager.createNamedQuery("Status.findUltimoStatus")
                 .setParameter("idEntrega", entrega.getIdEntrega()).getSingleResult();
-        
+
         int proximaSequencia = ultimoStatus.getRotaPercurso().getSequencia() + 1;
-        
-        RotaPercurso proximaRotaPercurso = (RotaPercurso) 
-                entityManager.createNamedQuery("RotaPercurso.findByIdRotaESequencia")
+
+        RotaPercurso proximaRotaPercurso = (RotaPercurso) entityManager.createNamedQuery("RotaPercurso.findByIdRotaESequencia")
                 .setParameter("idRota", ultimoStatus.getStatusPK().getIdRota())
                 .setParameter("sequencia", proximaSequencia).getSingleResult();
-        
-        if(proximaRotaPercurso == null) {
+
+        if (proximaRotaPercurso == null) {
             //Concluiu a entrega
         }
-        
+
     }
 
     public Entrega getEntrega() {
@@ -91,5 +104,13 @@ public class PainelEmpresaVM {
 
     public void setListaEntregas(List<Entrega> listaEntregas) {
         this.listaEntregas = listaEntregas;
+    }
+
+    public StatusCrud getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(StatusCrud ativo) {
+        this.ativo = ativo;
     }
 }

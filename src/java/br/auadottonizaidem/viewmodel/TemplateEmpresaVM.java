@@ -8,6 +8,8 @@ import br.auadottonizaidem.dao.ClienteJpaController;
 import br.auadottonizaidem.dao.EmpresaJpaController;
 import br.auadottonizaidem.entity.Cliente;
 import br.auadottonizaidem.entity.Empresa;
+import br.auadottonizaidem.entity.Veiculo;
+import br.auadottonizaidem.viewmodelutil.StatusCrud;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -38,6 +40,9 @@ public class TemplateEmpresaVM {
     private String login, senha;
     @WireVariable
     Session sessao;
+    private Veiculo veiculo;
+    private Empresa empresa;
+    private StatusCrud ativo;
 
     // assim que a pagina carregar ela executa esse metodo
     @AfterCompose
@@ -45,6 +50,14 @@ public class TemplateEmpresaVM {
         Selectors.wireComponents(view, this, false);
         Autenticacao a = new Autenticacao();
         emp = a.getEmpresaSession();
+        veiculo = a.getVeiculoSession();
+        empresa = a.getEmpresaSession();
+        if (empresa != null) {
+            ativo = StatusCrud.empresa;
+        }else if(veiculo != null){
+            ativo = StatusCrud.veiculo;
+        }
+        
     }
 
     @Command
@@ -122,4 +135,30 @@ public class TemplateEmpresaVM {
     public void setEmp(Empresa emp) {
         this.emp = emp;
     }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public StatusCrud getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(StatusCrud ativo) {
+        this.ativo = ativo;
+    }
+    
+    
 }

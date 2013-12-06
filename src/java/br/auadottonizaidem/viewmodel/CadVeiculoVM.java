@@ -22,6 +22,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 /**
@@ -53,6 +54,8 @@ public class CadVeiculoVM {
         fmrCadVeiculo.doModal();
 
     }
+    
+    
 
     @NotifyChange({"selected", "tipoVeiculo"})
     @Command
@@ -71,6 +74,7 @@ public class CadVeiculoVM {
         if (tipoVeiculo == StatusCrud.insert) {
             try {
                 new VeiculoJpaController(emf).create(selected);
+                Messagebox.show("Veiculo Cadastrado com Sucesso!");
             } catch (Exception ex) {
                 Logger.getLogger(CadVeiculoVM.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -11,6 +11,6 @@ package br.auadottonizaidem.viewmodelutil;
  * @author Willian Ottoni
  */
 public enum StatusCrud {
-    edit,delete,insert, view
+    edit,delete,insert, view, empresa, veiculo
     
 }

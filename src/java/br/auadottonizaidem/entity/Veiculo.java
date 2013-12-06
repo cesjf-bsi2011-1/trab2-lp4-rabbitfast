@@ -41,6 +41,8 @@ public class Veiculo implements Serializable {
     private String nomeMotorista;
     @Column(name = "tipo_veiculo")
     private String tipoVeiculo;
+    @Column(name = "senha")
+    private String senha;
     @OneToMany(mappedBy = "placaVeiculo")
     private List<Entrega> entregaList;
 
@@ -74,6 +76,14 @@ public class Veiculo implements Serializable {
     public void setTipoVeiculo(String tipoVeiculo) {
         this.tipoVeiculo = tipoVeiculo;
     }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }    
 
     @XmlTransient
     public List<Entrega> getEntregaList() {

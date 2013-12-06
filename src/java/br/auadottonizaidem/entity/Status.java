@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Status.findByIdRotaPercurso", query = "SELECT s FROM Status s WHERE s.statusPK.idRotaPercurso = :idRotaPercurso"),
     @NamedQuery(name = "Status.findByIdEntrega", query = "SELECT s FROM Status s WHERE s.statusPK.idEntrega = :idEntrega"),
     @NamedQuery(name = "Status.findByDataHoraPassagemPonto", query = "SELECT s FROM Status s WHERE s.dataHoraPassagemPonto = :dataHoraPassagemPonto"),
-    @NamedQuery(name = "Status.findUltimoStatus", query = "SELECT s FROM Status s WHERE s.statusPK.idEntrega = :idEntrega ORDER BY s.dataHoraPassagemPonto DESC LIMIT 1")})
+    @NamedQuery(name = "Status.findUltimoStatus", query = "SELECT s FROM Status s WHERE s.statusPK.idEntrega = :idEntrega ORDER BY s.dataHoraPassagemPonto")})
 public class Status implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
